@@ -5,14 +5,23 @@ const PROTECTED_ROUTES = ['/api/packages', '/api/inquiries']
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
-  const isProtected = PROTECTED_ROUTES.some((prefix) => path.startsWith(prefix))
+  const method = request.method
 
-  // Allow GET requests to pass through without token check for now (public read)
-  // Only protect mutating methods (POST, PUT, DELETE, PATCH)
-  if (!isProtected || request.method === 'GET') {
+  // Define protection rules
+  const isPackages = path.startsWith('/api/packages')
+  const isInquiries = path.startsWith('/api/inquiries')
+
+  // Rule 1: Packages - GET is public, others (POST, PUT, DELETE) are protected
+  if (isPackages && method === 'GET') {
     return NextResponse.next()
   }
 
+  // Rule 2: Inquiries - POST is public, others (GET, PUT, DELETE) are protected
+  if (isInquiries && method === 'POST') {
+    return NextResponse.next()
+  }
+
+  // If it's not one of the public exceptions above, strictly check for token
   const authHeader = request.headers.get('authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

@@ -2,24 +2,29 @@ import { NextRequest, NextResponse } from 'next/server'
 import cloudinary from '@/lib/cloudinary'
 
 export async function POST(req: NextRequest) {
-  const formData = await req.formData()
-  const file = formData.get('file') as File
-
-  if (!file) {
-    return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
+  try {
+    const formData = await req.formData()
+    const file = formData.get('file') as File
+  
+    if (!file) {
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
+    }
+  
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+  
+    const uploadResult = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ folder: 'world-safari' }, (err, result) => {
+          if (err) return reject(err)
+          resolve(result)
+        })
+        .end(buffer)
+    })
+  
+    return NextResponse.json(uploadResult)
+  } catch (error) {
+    console.error('Upload Error:', error);
+    return NextResponse.json({ error: 'Upload Failed', details: (error as any).message || error }, { status: 500 })
   }
-
-  const arrayBuffer = await file.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-
-  const uploadResult = await new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream({ folder: 'world-safari' }, (err, result) => {
-        if (err) return reject(err)
-        resolve(result)
-      })
-      .end(buffer)
-  })
-
-  return NextResponse.json(uploadResult)
 }
