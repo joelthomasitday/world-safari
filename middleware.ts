@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from '@/utils/jwt'
+import { verifyTokenEdge } from '@/utils/jwt-edge'
 
 const PROTECTED_ROUTES = ['/api/packages', '/api/inquiries']
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   const isProtected = PROTECTED_ROUTES.some((prefix) => path.startsWith(prefix))
 
@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
 
   const token = authHeader.split(' ')[1]
   try {
-    verifyToken(token)
+    await verifyTokenEdge(token)
     return NextResponse.next()
   } catch (err) {
     return NextResponse.json({ error: 'Invalid Token' }, { status: 401 })

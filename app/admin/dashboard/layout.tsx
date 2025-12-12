@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -102,12 +102,12 @@ export default function DashboardLayout({
   const [sheetOpen, setSheetOpen] = useState(false);
 
   // TODO: Re-enable authentication check later
-  // useEffect(() => {
-  //   const token = localStorage.getItem("admin_token");
-  //   if (!token) {
-  //     router.push("/admin/login");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const token = localStorage.getItem("admin_token");
+    if (!token) {
+      router.push("/admin/login");
+    }
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("admin_token");
