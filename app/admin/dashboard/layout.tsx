@@ -101,7 +101,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  // TODO: Re-enable authentication check later
+
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
     if (!token) {
