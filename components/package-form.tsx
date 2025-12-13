@@ -99,7 +99,8 @@ export function PackageForm({ packageId }: PackageFormProps) {
     try {
       setIsFetching(true);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/packages/${packageId}`
+        `${process.env.NEXT_PUBLIC_API_BASE}/packages/${packageId}`,
+        { cache: "no-store" }
       );
 
       if (!response.ok) {
