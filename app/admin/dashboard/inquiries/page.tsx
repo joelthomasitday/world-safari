@@ -58,8 +58,14 @@ export default function InquiriesPage() {
   const fetchInquiries = async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem("admin_token");
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/inquiries`
+        `${process.env.NEXT_PUBLIC_API_BASE}/inquiries`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (!response.ok) {
