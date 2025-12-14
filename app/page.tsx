@@ -1,6 +1,13 @@
 import { Hero } from "@/components/landing/Hero";
 import { Navbar } from "@/components/landing/Navbar";
 import { SocialProof } from "@/components/landing/SocialProof";
+import { FeaturedDestinations } from "@/components/landing/FeaturedDestinations";
+import { WhyWorldSafari } from "@/components/landing/WhyWorldSafari";
+import { PopularPackages } from "@/components/landing/PopularPackages";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { CTA } from "@/components/landing/CTA";
+import { Footer } from "@/components/landing/Footer";
 
 export default function Home() {
   return (
@@ -8,11 +15,13 @@ export default function Home() {
       <Navbar />
       <Hero />
       <SocialProof />
-      
-      {/* Spacer for future content */}
-      <div className="h-screen bg-zinc-50 flex items-center justify-center text-zinc-400">
-        <p>Featured Destinations Section Coming Soon...</p>
-      </div>
+      <FeaturedDestinations />
+      <WhyWorldSafari />
+      <PopularPackages />
+      <HowItWorks />
+      <Testimonials />
+      <CTA />
+      <Footer />
     </main>
   );
 }
