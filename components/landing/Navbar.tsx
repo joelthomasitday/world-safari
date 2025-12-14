@@ -82,7 +82,11 @@ const NAV_ITEMS = [
   },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  scrollThreshold?: number;
+}
+
+export function Navbar({ scrollThreshold }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedMobileItems, setExpandedMobileItems] = useState<Record<string, boolean>>({});
   const [isScrolled, setIsScrolled] = useState(false);
@@ -90,17 +94,17 @@ export function Navbar() {
   // Detect scroll position to determine if navbar is over white sections
   useEffect(() => {
     const handleScroll = () => {
-      // Hero section is typically 100vh, so we check if scrolled past that
+      // Use provided threshold or default to 80% of viewport height
+      const threshold = scrollThreshold ?? window.innerHeight * 0.8;
       const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight;
-      setIsScrolled(scrollY > heroHeight * 0.8); // Start transition before fully past hero
+      setIsScrolled(scrollY > threshold); 
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // Check initial position
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [scrollThreshold]);
 
   const toggleMobileItem = (label: string) => {
     setExpandedMobileItems(prev => ({
