@@ -1,40 +1,57 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Clock, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 
-// Mock data structure matching potential backend
-const PACKAGES = [
-  {
-    id: 1,
-    title: "The Royal Safari",
-    location: "South Africa & Botswana",
-    duration: "10 Days",
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2668&auto=format&fit=crop",
-    price: "From $5,200",
-  },
-  {
-    id: 2,
-    title: "Serengeti Migration",
-    location: "Tanzania",
-    duration: "7 Days",
-    rating: 5.0,
-    image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=2671&auto=format&fit=crop",
-    price: "From $4,800",
-  },
-  {
-    id: 3,
-    title: "Gorilla Trekking",
-    location: "Rwanda & Uganda",
-    duration: "5 Days",
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?q=80&w=2669&auto=format&fit=crop",
-    price: "From $3,500",
-  },
-];
+// Package type from API
+interface Package {
+  _id: string;
+  slug: string;
+  title: string;
+  duration: string;
+  price: string;
+  overview: string;
+  images: string[];
+}
+
+// Derive location from title/overview (same logic as packages page)
+function deriveLocation(pkg: Package): string {
+  const text = `${pkg.title} ${pkg.overview}`.toLowerCase();
+  if (text.includes('bali') || text.includes('indonesia')) return 'Bali, Indonesia';
+  if (text.includes('dubai') || text.includes('uae')) return 'Dubai, UAE';
+  if (text.includes('thailand')) return 'Thailand';
+  if (text.includes('maldives')) return 'Maldives';
+  if (text.includes('safari') || text.includes('africa')) return 'Africa';
+  if (text.includes('europe')) return 'Europe';
+  if (text.includes('japan')) return 'Japan';
+  if (text.includes('india')) return 'India';
+  return 'Worldwide';
+}
 
 export function PopularPackages() {
+  const [packages, setPackages] = useState<Package[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPackages() {
+      try {
+        const res = await fetch('/api/packages');
+        if (res.ok) {
+          const data = await res.json();
+          // Get first 3 packages for the homepage
+          setPackages(data.slice(0, 3));
+        }
+      } catch (error) {
+        console.error('Failed to fetch packages:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPackages();
+  }, []);
+
   return (
     <section className="py-20 md:py-32 bg-[#1a1a1a] text-white">
       <div className="container mx-auto px-6">
@@ -48,60 +65,88 @@ export function PopularPackages() {
             </p>
           </div>
           
-          <button className="px-6 py-3 border border-white/20 rounded-full font-medium text-sm hover:bg-white hover:text-black transition-all flex items-center gap-2">
+          <Link 
+            href="/packages"
+            className="px-6 py-3 border border-white/20 rounded-full font-medium text-sm hover:bg-white hover:text-black transition-all flex items-center gap-2"
+          >
             <span>View All Packages</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PACKAGES.map((pkg) => (
-            <div key={pkg.id} className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300">
-              {/* Image */}
-              <div className="relative h-64 w-full overflow-hidden">
-                <Image
-                  src={pkg.image}
-                  alt={pkg.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-white border border-white/20">
-                  <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                  {pkg.rating}
+        {loading ? (
+          // Loading skeleton
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden animate-pulse">
+                <div className="h-64 bg-white/10" />
+                <div className="p-6 md:p-8 space-y-4">
+                  <div className="h-4 bg-white/10 rounded w-1/2" />
+                  <div className="h-6 bg-white/10 rounded w-3/4" />
+                  <div className="h-4 bg-white/10 rounded w-1/3" />
                 </div>
               </div>
-
-              {/* Content */}
-              <div className="p-6 md:p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-primary-foreground/80 text-sm font-medium tracking-wide">
-                    {pkg.location}
-                  </span>
-                  <div className="flex items-center gap-1.5 text-white/50 text-xs">
-                    <Clock className="w-3.5 h-3.5" />
-                    {pkg.duration}
+            ))}
+          </div>
+        ) : packages.length === 0 ? (
+          // Empty state
+          <div className="text-center py-16 text-white/60">
+            <p>No packages available at the moment. Check back soon!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {packages.map((pkg) => (
+              <Link 
+                key={pkg._id} 
+                href={`/packages/${pkg.slug}`}
+                className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+              >
+                {/* Image */}
+                <div className="relative h-64 w-full overflow-hidden">
+                  <Image
+                    src={pkg.images?.[0] || '/placeholder-package.jpg'}
+                    alt={pkg.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-white border border-white/20">
+                    <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                    4.9
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-sans font-bold mb-2 group-hover:text-primary-200 transition-colors">
-                  {pkg.title}
-                </h3>
-                
-                <div className="mt-8 flex items-center justify-between">
-                  <span className="text-lg font-light text-white/90">
-                    {pkg.price}
-                  </span>
+                {/* Content */}
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-primary-foreground/80 text-sm font-medium tracking-wide">
+                      {deriveLocation(pkg)}
+                    </span>
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                      <Clock className="w-3.5 h-3.5" />
+                      {pkg.duration}
+                    </div>
+                  </div>
+
+                  <h3 className="text-2xl font-sans font-bold mb-2 group-hover:text-primary-200 transition-colors">
+                    {pkg.title}
+                  </h3>
                   
-                  {/* Reuse Hero Button Style exactly */}
-                  <button className="group/btn px-5 py-2.5 bg-white/10 backdrop-blur-sm rounded-full font-medium text-sm hover:bg-white hover:text-black transition-all flex items-center gap-2 border border-white/20">
-                    <span>Explore</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                  </button>
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-lg font-light text-white/90">
+                      {pkg.price}
+                    </span>
+                    
+                    {/* Reuse Hero Button Style exactly */}
+                    <span className="group/btn px-5 py-2.5 bg-white/10 backdrop-blur-sm rounded-full font-medium text-sm group-hover:bg-white group-hover:text-black transition-all flex items-center gap-2 border border-white/20">
+                      <span>Explore</span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

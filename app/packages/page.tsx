@@ -8,125 +8,59 @@ import { PackagesFilter } from "@/components/packages/PackagesFilter";
 import { PackageCard, Package } from "@/components/packages/PackageCard";
 import { PackagesCTA } from "@/components/packages/PackagesCTA";
 import { Skeleton } from "@/components/ui/skeleton";
-// User requested "Smooth transitions only (fade / slide / scale)". I'll use simple CSS or conditional rendering.
-// I will stick to React conditional rendering with standard Tailwind transitions for simplicity and robustness unless Framer Motion is confirmed.
-// Actually, "Smooth open/close animation" for filters was requested.
-// I'll use standard array mapping.
 
-// MOCK DATA
-const PACKAGES_DATA: Package[] = [
-  {
-    id: "1",
-    title: "Serengeti Migration Safari",
-    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-    destination: "Africa",
-    duration: "6-9 days",
-    description: "Witness the Great Migration in Tanzania’s Serengeti National Park. A once-in-a-lifetime wildlife spectacle.",
-    price: "$4,500",
-    slug: "serengeti-migration-safari"
-  },
-  {
-    id: "2",
-    title: "Kyoto Cultural Immersion",
-    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80",
-    destination: "Asia",
-    duration: "10+ days",
-    description: "Experience the ancient traditions of Japan. Tea ceremonies, temple visits, and private geisha entertainment.",
-    price: "$6,200",
-    slug: "kyoto-cultural-immersion"
-  },
-  {
-    id: "3",
-    title: "Amalfi Coast Luxury Escape",
-    image: "https://images.unsplash.com/photo-1613809622272-9602e1c4701e?auto=format&fit=crop&q=80",
-    destination: "Europe",
-    duration: "6-9 days",
-    description: "Indulge in la dolce vita with a private yacht tour, cliffside dining, and exclusive villa stays.",
-    price: "$5,800",
-    slug: "amalfi-coast-luxury-escape"
-  },
-  {
-    id: "4",
-    title: "Dubai Desert & City Tour",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea904ac66de?auto=format&fit=crop&q=80",
-    destination: "Middle East",
-    duration: "3-5 days",
-    description: "From the Burj Khalifa to a private desert safari. The ultimate blend of modern luxury and Arabian heritage.",
-    price: "$3,200",
-    slug: "dubai-desert-city-tour"
-  },
-  {
-    id: "5",
-    title: "Swiss Alps Ski Retreat",
-    image: "https://images.unsplash.com/photo-1526662092594-e9e71e6b0b6b?auto=format&fit=crop&q=80",
-    destination: "Europe",
-    duration: "6-9 days",
-    description: "World-class skiing in St. Moritz combined with five-star chalet accommodation and spa treatments.",
-    slug: "swiss-alps-ski-retreat"
-  },
-  {
-    id: "6",
-    title: "Bali Honeymoon Paradise",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80",
-    destination: "Asia",
-    duration: "10+ days",
-    description: "Romantic private pool villas in Ubud and Seminyak. Includes couples massage and sunset dinner cruises.",
-    price: "$3,900",
-    slug: "bali-honeymoon-paradise"
-  },
-  {
-    id: "7",
-    title: "Masai Mara Adventure",
-    image: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&q=80",
-    destination: "Africa",
-    duration: "3-5 days",
-    description: "An intense, action-packed safari experience in Kenya. Spot the Big Five with expert guides.",
-    price: "$2,800",
-    slug: "masai-mara-adventure"
-  },
-  {
-    id: "8",
-    title: "Paris & Provence Romantique",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80",
-    destination: "Europe",
-    duration: "6-9 days",
-    description: "A journey through the city of love and the lavender fields of Provence. Wine tasting and gourmet dining included.",
-    price: "$5,100",
-    slug: "paris-provence-romantique"
-  },
-  {
-    id: "9",
-    title: "Jordanian Ancient Wonders",
-    image: "https://images.unsplash.com/photo-1549141974-9580b008d77d?auto=format&fit=crop&q=80",
-    destination: "Middle East",
-    duration: "6-9 days",
-    description: "Explore Petra by candlelight and float in the Dead Sea. A historical journey through time.",
-    slug: "jordanian-ancient-wonders"
-  }
-];
-
-// Helper to map filters. 
-// Note: In a real app, I'd match exact values or use IDs. Here I match string loosely or exactly.
+// Helper to determine region for filtering (since backend lacks explicit 'destination' field yet)
+function getRegion(title: string = "", overview: string = ""): string {
+  const text = (title + " " + overview).toLowerCase();
+  if (text.includes("bali") || text.includes("japan") || text.includes("asia") || text.includes("thailand") || text.includes("kyoto")) return "Asia";
+  if (text.includes("paris") || text.includes("europe") || text.includes("swiss") || text.includes("italy") || text.includes("amalfi") || text.includes("provence")) return "Europe";
+  if (text.includes("dubai") || text.includes("jordan") || text.includes("middle east") || text.includes("egypt")) return "Middle East";
+  if (text.includes("safari") || text.includes("africa") || text.includes("tanzania") || text.includes("serengeti") || text.includes("kenya") || text.includes("masai")) return "Africa";
+  return "International"; 
+}
 
 export default function PackagesPage() {
+  const [packages, setPackages] = useState<Package[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     destination: "",
     duration: "",
     experience: ""
   });
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Simulate loading delay for skeleton demonstration
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    async function fetchPackages() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE || '/api'}/packages`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        
+        // Map backend data to frontend Package interface
+        const mappedPackages: Package[] = Array.isArray(data) ? data.map((pkg: any) => ({
+          id: pkg._id,
+          title: pkg.title || "Untitled Package",
+          // Use first image or fallback
+          image: pkg.images?.[0] || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2621&auto=format&fit=crop", 
+          destination: getRegion(pkg.title, pkg.overview), // Derive region for filters
+          duration: pkg.duration || "N/A",
+          description: pkg.overview || "No description available.",
+          price: pkg.price ? `$${pkg.price}` : "Price on Request", // Ensure currency symbol if missing
+          slug: pkg.slug || pkg._id // Use slug from API, fallback to _id for backward compatibility
+        })) : [];
+
+        setPackages(mappedPackages);
+      } catch (error) {
+        console.error("Error loading packages:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchPackages();
   }, []);
 
   const filteredPackages = useMemo(() => {
-    return PACKAGES_DATA.filter((pkg) => {
+    return packages.filter((pkg) => {
       // Destination Filter
       if (filters.destination && filters.destination !== "all") {
         if (pkg.destination !== filters.destination) return false;
@@ -140,16 +74,16 @@ export default function PackagesPage() {
          const exp = filters.experience.toLowerCase();
          const title = pkg.title.toLowerCase();
          const desc = pkg.description.toLowerCase();
-         // Simple keyword matching for demo
+         // Simple keyword matching
          if (exp === "honeymoon" && !(title.includes("honeymoon") || title.includes("romanti") || desc.includes("couple"))) return false;
          if (exp === "adventure" && !(title.includes("adventure") || title.includes("safari") || desc.includes("hike") || desc.includes("ski"))) return false;
          if (exp === "family" && !(desc.includes("family") || title.includes("family"))) return false;
-         if (exp === "luxury" && !(title.includes("luxury") || desc.includes("luxury") || pkg.price?.includes("5,"))) return false;
+         if (exp === "luxury" && !(title.includes("luxury") || desc.includes("luxury") || (pkg.price && pkg.price.includes("5,")))) return false;
       }
 
       return true;
     });
-  }, [filters]);
+  }, [packages, filters]);
 
   return (
     <main className="min-h-screen bg-white">
