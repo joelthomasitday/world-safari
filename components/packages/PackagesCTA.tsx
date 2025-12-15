@@ -26,11 +26,13 @@ export function PackagesCTA() {
            Let our experts plan your perfect journey.
         </p>
 
-        <Link href="/plan-your-journey">
-            <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black transition-all flex items-center gap-2 mx-auto">
-            <span>Enquire Now</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+        {/* Route to existing contact page for enquiries */}
+        <Link
+          href="/contact"
+          className="group inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black transition-all mx-auto"
+        >
+          <span>Enquire Now</span>
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </section>

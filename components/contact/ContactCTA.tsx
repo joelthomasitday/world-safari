@@ -9,13 +9,34 @@ export function ContactCTA() {
        <div className="container mx-auto px-6 max-w-4xl text-center">
          <h2 className="text-2xl font-semibold text-gray-900 mb-8">Prefer instant assistance?</h2>
          <div className="flex flex-col sm:flex-row justify-center gap-6">
-           <Button variant="outline" size="lg" className="h-14 px-8 border-gray-200 text-gray-700 hover:text-green-600 hover:border-green-600 hover:bg-green-50 rounded-full gap-3 transition-all">
-             <MessageCircle className="w-5 h-5" />
-             WhatsApp Us
+           {/* Open WhatsApp chat in a new tab */}
+           <Button
+             asChild
+             variant="outline"
+             size="lg"
+             className="h-14 px-8 border-gray-200 text-gray-700 hover:text-green-600 hover:border-green-600 hover:bg-green-50 rounded-full gap-3 transition-all"
+           >
+             <a
+               href="https://wa.me/123456789"
+               target="_blank"
+               rel="noopener noreferrer"
+             >
+               <MessageCircle className="w-5 h-5 inline-block mr-2" />
+               WhatsApp Us
+             </a>
            </Button>
-           <Button variant="outline" size="lg" className="h-14 px-8 border-gray-200 text-gray-700 hover:text-primary hover:border-primary hover:bg-primary/5 rounded-full gap-3 transition-all">
-             <PhoneCall className="w-5 h-5" />
-             Call Now
+
+           {/* Click-to-call using the primary phone number */}
+           <Button
+             asChild
+             variant="outline"
+             size="lg"
+             className="h-14 px-8 border-gray-200 text-gray-700 hover:text-primary hover:border-primary hover:bg-primary/5 rounded-full gap-3 transition-all"
+           >
+             <a href="tel:+27211234567">
+               <PhoneCall className="w-5 h-5 inline-block mr-2" />
+               Call Now
+             </a>
            </Button>
          </div>
        </div>

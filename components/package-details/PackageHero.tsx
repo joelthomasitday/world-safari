@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, MapPin, Clock } from "lucide-react";
 
 interface PackageHeroProps {
@@ -18,6 +19,14 @@ export function PackageHero({
   price,
   backgroundImage,
 }: PackageHeroProps) {
+  const scrollToEnquiry = () => {
+    if (typeof document === "undefined") return;
+    const target = document.getElementById("enquire-now");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <section className="relative h-[80vh] min-h-[600px] w-full overflow-hidden">
       {/* Background Image with Overlay */}
@@ -64,14 +73,23 @@ export function PackageHero({
 
         {/* Call to Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 fill-mode-backwards">
-          <button className="group px-8 py-4 bg-white text-black rounded-full font-medium text-base hover:bg-gray-100 transition-all flex items-center gap-2 shadow-xl hover:shadow-2xl hover:-translate-y-0.5">
+          {/* Scroll to the enquiry form section on this page */}
+          <button
+            type="button"
+            onClick={scrollToEnquiry}
+            className="group px-8 py-4 bg-white text-black rounded-full font-medium text-base hover:bg-gray-100 transition-all flex items-center gap-2 shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
+          >
             <span>Enquire Now</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
           
-          <button className="group px-8 py-4 bg-black/30 backdrop-blur-md border border-white/30 rounded-full font-medium text-base text-white hover:bg-black/50 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+          {/* Route to contact page for expert consultation */}
+          <Link
+            href="/contact"
+            className="group px-8 py-4 bg-black/30 backdrop-blur-md border border-white/30 rounded-full font-medium text-base text-white hover:bg-black/50 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+          >
             <span>Talk to Expert</span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

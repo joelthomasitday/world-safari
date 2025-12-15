@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export function Hero() {
@@ -40,20 +41,30 @@ export function Hero() {
 
           {/* Call to Action Buttons - Pill Shaped */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-            <button className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20">
+            {/* Map primary hero CTAs to real routes */}
+            <Link
+              href="/about"
+              className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20"
+            >
               <span>Our Experience</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
             
-            <button className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20">
+            <Link
+              href="/packages"
+              className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20"
+            >
               <span>Plan Your Journey</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
             
-            <button className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20">
+            <Link
+              href="/contact"
+              className="group px-6 py-3 md:px-8 md:py-4 bg-black/40 backdrop-blur-sm rounded-full font-medium text-sm md:text-base hover:bg-black/60 transition-all flex items-center gap-2 border border-white/20"
+            >
               <span>Webinar</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
           </div>
         </div>
 

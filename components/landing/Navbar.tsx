@@ -298,7 +298,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
               asChild
               className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all h-10 px-6 font-medium"
             >
-              <Link href="/enquire">Enquire Now</Link>
+              {/* Route to existing contact/enquiry flow */}
+              <Link href="/contact">Enquire Now</Link>
             </Button>
           </div>
 
@@ -320,10 +321,11 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-gray-100 pb-2">Contact</Link>
              </div>
 
-             {/* Mobile CTA */}
-             <div className="space-y-3 pt-4">
+            {/* Mobile CTA */}
+            <div className="space-y-3 pt-4">
                <Button asChild className="w-full h-12 rounded-full text-lg shadow-xl shadow-primary/20">
-                 <Link href="/enquire" onClick={() => setIsMobileMenuOpen(false)}>Plan Your Trip</Link>
+                 {/* Route to existing contact/enquiry flow */}
+                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Plan Your Trip</Link>
                </Button>
                <div className="grid grid-cols-2 gap-3">
                  <Button variant="outline" className="h-10 rounded-full border-gray-200" asChild>

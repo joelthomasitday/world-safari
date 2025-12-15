@@ -1,6 +1,7 @@
-"use client";
+ "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const DESTINATIONS = [
@@ -44,10 +45,13 @@ export function FeaturedDestinations() {
             </p>
           </div>
           
-          <button className="group px-6 py-3 bg-transparent border border-gray-300 rounded-full font-medium text-sm hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all flex items-center gap-2">
+          <Link
+            href="/packages"
+            className="group px-6 py-3 bg-transparent border border-gray-300 rounded-full font-medium text-sm hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all flex items-center gap-2"
+          >
             <span>View All Destinations</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

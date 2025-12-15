@@ -1,7 +1,8 @@
-"use client";
+ "use client";
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function CTA() {
   return (
@@ -26,10 +27,13 @@ export function CTA() {
           Tailored specifically to your dreams.
         </p>
 
-        <button className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black transition-all flex items-center gap-2 mx-auto">
+        <Link
+          href="/contact"
+          className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black transition-all inline-flex items-center gap-2 mx-auto"
+        >
           <span>Start Your Journey</span>
           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </button>
+        </Link>
       </div>
     </section>
   );

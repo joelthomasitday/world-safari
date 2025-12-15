@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Phone, Mail } from "lucide-react";
 
 const SOCIAL_LINKS = [
   {
@@ -10,14 +10,19 @@ const SOCIAL_LINKS = [
     label: "World Safari Tours and Travels on Facebook",
   },
   {
-    Icon: Facebook,
-    href: "https://www.facebook.com/worldsafaritour/",
-    label: "World Safari Tour on Facebook",
+    Icon: Phone,
+    href: "https://wa.me/919947247200",
+    label: "Chat on WhatsApp",
   },
   {
     Icon: Instagram,
     href: "https://www.instagram.com/worldsafaritours",
     label: "World Safari Tours on Instagram",
+  },
+  {
+    Icon: Mail,
+    href: "mailto:mail@worldsafari.in",
+    label: "Email Us",
   },
 ];
 
@@ -44,7 +49,10 @@ export function Footer() {
             <ul className="space-y-4">
               {["About Us", "Careers", "Press", "Blog"].map((item) => (
                 <li key={item}>
-                  <Link href="#" className="text-gray-500 hover:text-primary transition-colors text-sm">
+                  <Link
+                    href={item === "About Us" ? "/about" : "#"}
+                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                  >
                     {item}
                   </Link>
                 </li>
@@ -58,7 +66,10 @@ export function Footer() {
             <ul className="space-y-4">
               {["Contact Us", "Terms & Conditions", "Privacy Policy", "Sitemap"].map((item) => (
                 <li key={item}>
-                  <Link href="#" className="text-gray-500 hover:text-primary transition-colors text-sm">
+                  <Link
+                    href={item === "Contact Us" ? "/contact" : "#"}
+                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                  >
                     {item}
                   </Link>
                 </li>
