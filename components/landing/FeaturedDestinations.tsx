@@ -31,7 +31,7 @@ DESTINATIONS[2].image = "https://images.unsplash.com/photo-1518709766631-a6a7f45
 
 export function FeaturedDestinations() {
   return (
-    <section className="py-20 md:py-32 bg-zinc-50">
+    <section className=" bg-zinc-50">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-end justify-between mb-12 md:mb-20 gap-8">
           <div className="max-w-2xl">

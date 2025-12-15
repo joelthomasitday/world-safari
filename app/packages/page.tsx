@@ -88,7 +88,7 @@ export default function PackagesPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Navbar with same behavior as landing page */}
-      <Navbar />
+      <Navbar variant="hero" />
 
       {/* Hero Section */}
       <PackagesHero 

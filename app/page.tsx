@@ -1,5 +1,5 @@
 import { Hero } from "@/components/landing/Hero";
-import { Navbar } from "@/components/landing/Navbar";
+import HeroLayout from "@/components/HeroLayout";
 import { SocialProof } from "@/components/landing/SocialProof";
 import { FeaturedDestinations } from "@/components/landing/FeaturedDestinations";
 import { WhyWorldSafari } from "@/components/landing/WhyWorldSafari";
@@ -12,9 +12,10 @@ import { Footer } from "@/components/landing/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
-      <Hero />
-      <SocialProof />
+      <HeroLayout>
+        <Hero />
+      </HeroLayout>
+      {/* <SocialProof /> */}
       <FeaturedDestinations />
       <WhyWorldSafari />
       <PopularPackages />

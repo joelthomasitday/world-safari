@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden rounded-3xl">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 select-none">
         <Image
@@ -13,7 +13,7 @@ export function Hero() {
           alt="Luxury Travel Experience"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center rounded-3xl"
           quality={90}
         />
         {/* Subtle Dark Overlay for Text Readability */}

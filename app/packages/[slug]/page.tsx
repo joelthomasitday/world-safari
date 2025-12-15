@@ -162,7 +162,7 @@ export default async function PackageDetailsPage({
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <Navbar variant="hero" />
       
       <PackageHero 
         title={pkg.title}
