@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, MessageCircle, ChevronDown, ChevronRight, MapPin, Calendar, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -174,10 +175,16 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm group-hover:bg-primary/90 transition-colors">
-                W
+              <div className="relative w-10 h-10">
+                <Image
+                  src="/WST-logo.png"
+                  alt="World Safari logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <span className="font-serif text-xl font-bold tracking-tight text-gray-900 hidden md:block">
+              <span className="text-xl font-bold tracking-tight text-gray-900 hidden md:block">
                 World Safari
               </span>
             </Link>
@@ -198,7 +205,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                        {/* Featured Sidebar */}
                        <div className="w-1/4 bg-gray-50 p-6 flex flex-col justify-between border-r border-gray-100">
                           <div>
-                            <h4 className="font-serif font-bold text-lg text-gray-900 mb-2">Featured</h4>
+                            <h4 className="font-bold text-lg text-gray-900 mb-2">Featured</h4>
                             <p className="text-xs text-gray-500 mb-4">Handpicked tours for the ultimate experience.</p>
                           </div>
                           <Link href="/packages" className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">

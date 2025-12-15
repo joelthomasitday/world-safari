@@ -14,7 +14,7 @@ export function ContactForm() {
       <div className="container mx-auto px-6 max-w-5xl">
         
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl md:text-5xl font-serif font-medium text-gray-900 tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-medium text-gray-900 tracking-tight">
             Send Us a Message
           </h2>
           <p className="text-gray-500 font-light text-xl max-w-2xl mx-auto">
@@ -79,7 +79,7 @@ export function ContactForm() {
               </div>
               
               <div className="flex flex-col items-center gap-6 pt-6">
-                <Button size="lg" className="h-16 px-16 text-lg rounded-full font-serif tracking-wide w-full md:w-auto shadow-xl shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all duration-300">
+                <Button size="lg" className="h-16 px-16 text-lg rounded-full tracking-wide w-full md:w-auto shadow-xl shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all duration-300">
                   Send Enquiry
                 </Button>
                 <p className="text-gray-400 text-sm font-light flex items-center gap-2">

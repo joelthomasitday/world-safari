@@ -14,7 +14,7 @@ export function ContactInfo() {
           {/* Left Column: Contact Cards */}
           <div className="w-full lg:w-5/12 space-y-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-serif font-medium text-gray-900 mb-8 tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-medium text-gray-900 mb-8 tracking-tight">
                 Contact Information
               </h2>
             </div>

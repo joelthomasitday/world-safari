@@ -32,7 +32,7 @@ export function HowItWorks() {
 
           {steps.map((step, idx) => (
             <div key={idx} className="flex flex-col items-center text-center bg-white">
-              <div className="w-24 h-24 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-3xl font-serif font-bold text-primary mb-8 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-3xl font-bold text-primary mb-8 relative z-10">
                 {step.num}
               </div>
               <h3 className="text-2xl font-sans font-bold text-gray-900 mb-4">{step.title}</h3>

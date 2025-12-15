@@ -34,7 +34,7 @@ export function PackageItinerary({ itinerary }: PackageItineraryProps) {
             >
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex items-center gap-4 text-left">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-serif font-bold text-lg">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
                     {item.day}
                   </div>
                   <span className="text-lg md:text-xl font-medium text-gray-900">

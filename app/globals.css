@@ -27,7 +27,7 @@
   --font-serif: var(--font-playfair);
   --color-gold: #d4af37;
   --color-bronze: #cd7f32;
-  --color-nature-green: #2e5a44;
+  --color-nature-green: #4f8a31;
 }
 
 :root {
@@ -37,7 +37,7 @@
   --card-foreground: #1a1a1a;
   --popover: #ffffff;
   --popover-foreground: #1a1a1a;
-  --primary: #2e5a44; /* Nature Green */
+  --primary: #4f8a31; /* Brand Primary */
   --primary-foreground: #ffffff;
   --secondary: #f8f8f8;
   --secondary-foreground: #1a1a1a;
@@ -49,7 +49,7 @@
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #2e5a44;
+  --ring: #4f8a31;
   --radius: 0.625rem;
 }
 
@@ -60,7 +60,7 @@
   --card-foreground: #ededed;
   --popover: #0a0a0a;
   --popover-foreground: #ededed;
-  --primary: #3e7a5e;
+  --primary: #4f8a31;
   --primary-foreground: #ffffff;
   --secondary: #1a1a1a;
   --secondary-foreground: #ededed;
@@ -72,7 +72,7 @@
   --destructive-foreground: #ededed;
   --border: #27272a;
   --input: #27272a;
-  --ring: #3e7a5e;
+  --ring: #4f8a31;
 }
 
 

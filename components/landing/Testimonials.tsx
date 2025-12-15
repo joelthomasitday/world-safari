@@ -56,7 +56,7 @@ export function Testimonials() {
               }`}
             >
               <Quote className="w-12 h-12 text-primary/20 mb-8" />
-              <p className="text-xl md:text-2xl font-serif italic text-gray-800 leading-relaxed mb-8">
+              <p className="text-xl md:text-2xl italic text-gray-800 leading-relaxed mb-8">
                 "{item.text}"
               </p>
               <div>
@@ -72,7 +72,7 @@ export function Testimonials() {
           <div className="invisible opacity-0 pointer-events-none">
             <div className="flex flex-col items-center text-center">
               <Quote className="w-12 h-12 mb-8" />
-              <p className="text-xl md:text-2xl font-serif leading-relaxed mb-8">
+              <p className="text-xl md:text-2xl leading-relaxed mb-8">
                 Placeholder
               </p>
               <div>

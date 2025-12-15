@@ -1,7 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
+
+const SOCIAL_LINKS = [
+  {
+    Icon: Facebook,
+    href: "https://www.facebook.com/worldsafaritoursandtravels/",
+    label: "World Safari Tours and Travels on Facebook",
+  },
+  {
+    Icon: Facebook,
+    href: "https://www.facebook.com/worldsafaritour/",
+    label: "World Safari Tour on Facebook",
+  },
+  {
+    Icon: Instagram,
+    href: "https://www.instagram.com/worldsafaritours",
+    label: "World Safari Tours on Instagram",
+  },
+];
 
 export function Footer() {
   return (
@@ -10,10 +28,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2 mb-6">
-               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-serif font-bold">
+               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
                  W
                </div>
-               <span className="font-serif text-xl font-bold tracking-wide">World Safari</span>
+               <span className="text-xl font-bold tracking-wide">World Safari</span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">
               Crafting unforgettable luxury safaris and travel experiences since 2008.
@@ -52,8 +70,15 @@ export function Footer() {
           <div>
             <h4 className="font-sans font-bold text-sm uppercase tracking-widest mb-6">Follow Us</h4>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Twitter, Linkedin].map((Icon, idx) => (
-                <a key={idx} href="#" className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-all">
+              {SOCIAL_LINKS.map(({ Icon, href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-all"
+                >
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
