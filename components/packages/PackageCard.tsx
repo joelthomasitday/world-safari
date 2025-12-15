@@ -52,7 +52,7 @@ export function PackageCard({ pkg }: PackageCardProps) {
           </h3>
 
           {/* Description */}
-          <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-2 flex-grow">
+          <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-1 flex-grow">
             {pkg.description}
           </p>
 

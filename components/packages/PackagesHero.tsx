@@ -9,10 +9,10 @@ interface PackagesHeroProps {
 
 export function PackagesHero({ 
   title = "Explore Our Travel Packages", 
-  subtitle = "Handcrafted journeys across the world" 
+  subtitle = "Handcrafted journeys designed for unforgettable experiences" 
 }: PackagesHeroProps) {
   return (
-    <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 select-none">
         <Image

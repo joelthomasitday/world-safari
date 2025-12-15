@@ -153,13 +153,13 @@ export default function PackagesPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Navbar with lower scroll threshold for the shorter hero */}
-      <Navbar scrollThreshold={300} />
+      {/* Navbar with same behavior as landing page */}
+      <Navbar />
 
       {/* Hero Section */}
       <PackagesHero 
         title="Explore Our Travel Packages"
-        subtitle="Handcrafted journeys across the world"
+        subtitle="Handcrafted journeys designed for unforgettable experiences"
       />
 
       {/* Sticky Filters */}
@@ -191,7 +191,7 @@ export default function PackagesPage() {
           ) : filteredPackages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
               {filteredPackages.map((pkg) => (
-                <div key={pkg.id} className="animate-in fade-in zoom-in-50 duration-500 fill-mode-both">
+                <div key={pkg.id} className="animate-in fade-in slide-in-from-bottom-6 duration-700 fill-mode-both">
                     <PackageCard pkg={pkg} />
                 </div>
               ))}
@@ -206,7 +206,7 @@ export default function PackagesPage() {
                </div>
                <h3 className="text-2xl font-serif font-bold text-gray-900 mb-2">No packages found</h3>
                <p className="text-gray-500 max-w-md mx-auto">
-                 More journeys are being crafted. Check back soon.
+                 More journeys coming soon.
                </p>
                <button 
                  onClick={() => setFilters({ destination: "", duration: "", experience: "" })}
