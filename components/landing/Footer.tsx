@@ -8,7 +8,6 @@ export function Footer() {
     <footer className="bg-white text-gray-900 border-t border-gray-100 pt-20 pb-10">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          {/* Brand */}
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2 mb-6">
                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-serif font-bold">
@@ -58,6 +57,15 @@ export function Footer() {
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
+            </div>
+            
+            <div className="mt-8">
+               <Link 
+                 href="/admin/login" 
+                 className="text-sm text-gray-400 opacity-40 hover:opacity-100 transition-opacity no-underline"
+               >
+                 Staff Login
+               </Link>
             </div>
           </div>
         </div>
