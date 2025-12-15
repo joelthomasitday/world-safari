@@ -1,371 +1,393 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import * as React from "react";
 import Link from "next/link";
-import { Menu, X, Phone, MessageCircle, ChevronDown, ChevronRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Phone, MessageCircle, ChevronDown, ChevronRight, MapPin, Calendar, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuList,
   NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const DESTINATIONS = {
-  "Asia": ["Thailand", "Singapore", "Malaysia", "Vietnam", "Sri Lanka", "China"],
-  "Europe": ["Schengen Tours", "France", "Switzerland", "Italy"],
-  "Middle East": ["Dubai", "Abu Dhabi"],
-};
+// --- Types ---
 
-const PACKAGES = [
-  "All Packages",
-  "Honeymoon Packages",
-  "Family Tours",
-  "Group Tours",
-  "Luxury Tours",
-];
-
-const EXPERIENCES = [
-  "Adventure",
-  "Leisure",
-  "Honeymoon",
-  "Cultural",
-  "Wildlife",
-];
-
-const ABOUT_US = [
-  "Company Profile",
-  "Why World Safari",
-  "Our Experience (15+ Years)",
-];
-
-const CONTACT = [
-  "Contact Us",
-  "Office Location",
-  "Call / WhatsApp",
-];
-
-const NAV_ITEMS = [
-  { 
-    label: "Destinations", 
-    hasDropdown: true,
-    dropdown: DESTINATIONS,
-  },
-  { 
-    label: "Packages", 
-    hasDropdown: true,
-    dropdown: PACKAGES,
-  },
-  { 
-    label: "Experiences", 
-    hasDropdown: true,
-    dropdown: EXPERIENCES,
-  },
-  { 
-    label: "About Us", 
-    hasDropdown: true,
-    dropdown: ABOUT_US,
-  },
-  { 
-    label: "Contact", 
-    hasDropdown: true,
-    dropdown: CONTACT,
-  },
-];
-
-interface NavbarProps {
-  scrollThreshold?: number;
+interface Package {
+  _id: string;
+  title: string;
+  slug: string;
+  images: string[];
+  price?: string;
+  duration?: string;
+  overview?: string;
+  destination?: string; // Derived or possibly in future API
+  isActive?: boolean;
 }
 
-export function Navbar({ scrollThreshold }: NavbarProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [expandedMobileItems, setExpandedMobileItems] = useState<Record<string, boolean>>({});
-  const [isScrolled, setIsScrolled] = useState(false);
+// --- Helpers ---
 
-  // Detect scroll position to determine if navbar is over white sections
-  useEffect(() => {
-    const handleScroll = () => {
-      // Use provided threshold or default to 80% of viewport height
-      const threshold = scrollThreshold ?? window.innerHeight * 0.8;
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > threshold); 
+// Helper to determine region
+const getRegion = (title: string = "", overview: string = ""): string => {
+  const text = (title + " " + overview).toLowerCase();
+  
+  if (text.includes("bali") || text.includes("japan") || text.includes("asia") || text.includes("thailand") || 
+      text.includes("kyoto") || text.includes("vietnam") || text.includes("sri lanka") || text.includes("china") || 
+      text.includes("singapore") || text.includes("malaysia") || text.includes("india") || text.includes("kerala") || 
+      text.includes("goa") || text.includes("manali")) return "Asia";
+      
+  if (text.includes("paris") || text.includes("europe") || text.includes("swiss") || text.includes("italy") || 
+      text.includes("amalfi") || text.includes("provence") || text.includes("france") || text.includes("germany") || 
+      text.includes("spain") || text.includes("greece")) return "Europe";
+      
+  if (text.includes("dubai") || text.includes("jordan") || text.includes("middle east") || text.includes("egypt") || 
+      text.includes("abu dhabi") || text.includes("turkey")) return "Middle East";
+      
+  if (text.includes("safari") || text.includes("africa") || text.includes("tanzania") || text.includes("serengeti") || 
+      text.includes("kenya") || text.includes("masai") || text.includes("south africa") || text.includes("morocco")) return "Africa";
+      
+  return "International"; 
+};
+
+// Expanded list of known countries/destinations to extract from package data
+const KNOWN_DESTINATIONS = [
+  "Thailand", "Singapore", "Malaysia", "Vietnam", "Sri Lanka", "China", "Japan", "Bali", "India", "Kerala", "Manali", // Asia
+  "France", "Switzerland", "Italy", "Greece", "Spain", "Germany", "London", "Paris", // Europe
+  "Dubai", "Abu Dhabi", "Jordan", "Egypt", "Turkey", // Middle East
+  "Kenya", "Tanzania", "South Africa", "Morocco", "Mauritius", "Seychelles" // Africa
+];
+
+export function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  const [packages, setPackages] = React.useState<Package[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const pathname = usePathname();
+
+  // --- Data Fetching ---
+
+  React.useEffect(() => {
+
+
+
+    const fetchPackages = async () => {
+      try {
+        const res = await fetch('/api/packages');
+        if (res.ok) {
+          const data = await res.json();
+          setPackages(Array.isArray(data) ? data : []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch packages:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPackages();
+
+    return () => {};
+
+  }, []);
+
+  // --- Derived Data ---
+
+  // Dynamically group destinations based on available packages
+  const destinationsByRegion = React.useMemo(() => {
+    const groups: Record<string, Set<string>> = {
+      "Asia": new Set(),
+      "Europe": new Set(),
+      "Middle East": new Set(),
+      "Africa": new Set(),
+      "International": new Set()
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial position
+    packages.forEach(pkg => {
+      if (pkg.isActive === false) return; // Skip explicitly inactive
+      
+      const region = getRegion(pkg.title, pkg.overview);
+      if (groups[region]) {
+        // Try to find specific known destinations in the title
+        let found = false;
+        KNOWN_DESTINATIONS.forEach(dest => {
+          if (pkg.title.toLowerCase().includes(dest.toLowerCase())) {
+            groups[region].add(dest);
+            found = true;
+          }
+        });
+        // If no specific destination found but region is valid? 
+        // We'll rely on the region link itself.
+      }
+    });
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrollThreshold]);
+    // Cleanup empty regions and sort
+    return Object.entries(groups).reduce((acc, [region, dests]) => {
+      if (dests.size > 0) {
+        acc[region] = Array.from(dests).sort();
+      }
+      return acc;
+    }, {} as Record<string, string[]>);
+  }, [packages]);
 
-  const toggleMobileItem = (label: string) => {
-    setExpandedMobileItems(prev => ({
-      ...prev,
-      [label]: !prev[label]
-    }));
-  };
+  const popularPackages = React.useMemo(() => {
+    // Top 4 active packages
+    return packages.filter(p => p.isActive !== false).slice(0, 4); 
+  }, [packages]);
 
-  const isDropdownObject = (dropdown: any): dropdown is Record<string, string[]> => {
-    return typeof dropdown === 'object' && !Array.isArray(dropdown);
-  };
+  // --- Styling ---
+  // Always white pill, static consistent style
+  const navClasses = cn(
+    "fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl",
+    "bg-white backdrop-blur-md rounded-full border border-gray-100/50 shadow-xl py-3"
+  );
 
-  // Dynamic classes based on scroll position
-  const navTextClass = isScrolled 
-    ? "text-gray-900" 
-    : "text-white";
-  
-  const navBgClass = isScrolled
-    ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
-    : "bg-transparent";
-
-  const logoBgClass = isScrolled
-    ? "bg-gray-900/10 border-gray-200"
-    : "bg-white/10 backdrop-blur-md border-white/20";
-
-  const logoTextClass = isScrolled
-    ? "text-gray-900"
-    : "text-white";
+  // Using solid white bg to satisfy 'white bg rounded'.
 
   return (
     <>
-      <nav className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        navBgClass,
-        navTextClass
-      )}>
-        {/* Desktop & Mobile Header Container */}
-        <div className="container mx-auto px-6 py-6 flex items-center justify-between">
+      <header className={navClasses}>
+        <div className="px-6 flex items-center justify-between h-full">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 z-50 relative">
-            <div className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-300",
-              logoBgClass
-            )}>
-              <span className={cn(
-                "font-serif text-xl font-bold transition-colors duration-300",
-                logoTextClass
-              )}>W</span>
-            </div>
-            <span className={cn(
-              "font-serif text-2xl font-bold tracking-wide transition-colors duration-300",
-              navTextClass
-            )}>
-              World Safari Tours
-            </span>
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
+             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm group-hover:bg-primary/90 transition-colors">
+               W
+             </div>
+             <span className="font-serif text-xl font-bold tracking-tight text-gray-900 hidden md:block">
+               World Safari
+             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6 flex-1 justify-center">
-            <NavigationMenu>
+          <div className="hidden lg:flex items-center justify-center flex-1 mx-4">
+            <NavigationMenu delayDuration={0}>
               <NavigationMenuList className="gap-1">
-                {NAV_ITEMS.map((item) => (
-                  <NavigationMenuItem key={item.label}>
-                    {item.hasDropdown ? (
-                      <DropdownMenu modal={false}>
-                        <DropdownMenuTrigger asChild>
-                          <button
-                            className={cn(
-                              "group inline-flex h-9 w-max items-center justify-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ease-in-out",
-                              // Remove default focus rings and borders
-                              "outline-none",
-                              navTextClass,
-                              isScrolled 
-                                ? "hover:bg-gray-100 data-[state=open]:bg-gray-100" 
-                                : "hover:bg-white/10 data-[state=open]:bg-white/15 data-[state=open]:backdrop-blur-sm"
-                            )}
-                          >
-                            {item.label}
-                            <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent 
-                          align="start" 
-                          sideOffset={8}
-                          className="w-[280px] p-3 bg-white/95 backdrop-blur-xl shadow-2xl border-white/20 rounded-xl"
-                        >
-                          {isDropdownObject(item.dropdown) ? (
-                            // Destinations nested structure
-                            <>
-                              {Object.entries(item.dropdown).map(([region, countries], idx) => (
-                                <div key={region} className="mb-2 last:mb-0">
-                                  {idx > 0 && <DropdownMenuSeparator className="my-2 bg-gray-100/50" />}
-                                  <DropdownMenuLabel className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] px-3 py-2">
-                                    {region}
-                                  </DropdownMenuLabel>
-                                  {countries.map((country) => (
-                                    <DropdownMenuItem key={country} asChild>
-                                      <Link
-                                        href={`/destinations/${country.toLowerCase().replace(/\s+/g, '-')}`}
-                                        className="group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary outline-none transition-all duration-200 cursor-pointer"
-                                      >
-                                        <span>{country}</span>
-                                        <ChevronRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-primary/50" />
-                                      </Link>
-                                    </DropdownMenuItem>
-                                  ))}
+
+                {/* Destinations Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="rounded-full px-4 h-9 text-gray-700 hover:text-primary hover:bg-gray-50 bg-transparent text-sm font-medium focus:bg-gray-50 data-[state=open]:bg-gray-50">
+                    Destinations
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="w-[650px] p-6 grid grid-cols-12 gap-6 relative outline-none">
+                       {/* Decoration */}
+                       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none" />
+
+                       {Object.keys(destinationsByRegion).length > 0 ? (
+                         Object.entries(destinationsByRegion).map(([region, dests], idx) => (
+                           <div key={region} className={cn(
+                             "space-y-3",
+                             // Simple masonry-like span logic
+                             idx % 2 === 0 ? "col-span-12 md:col-span-5" : "col-span-12 md:col-span-7 pl-6 border-l border-gray-50"
+                           )}>
+                             <div className="flex items-center gap-2 mb-2">
+                               <MapPin className="w-4 h-4 text-primary" />
+                               <Link href={`/packages?destination=${region}`} className="font-serif font-bold text-gray-900 hover:text-primary transition-colors">
+                                 {region}
+                               </Link>
+                             </div>
+                             <ul className="grid grid-cols-2 gap-2">
+                               {dests.map((dest) => (
+                                 <li key={dest}>
+                                   <Link 
+                                     href={`/packages?query=${dest}`} 
+                                     className="block rounded-lg px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-all font-medium truncate"
+                                   >
+                                     {dest}
+                                   </Link>
+                                 </li>
+                               ))}
+                             </ul>
+                           </div>
+                         ))
+                       ) : (
+                         <div className="col-span-12 text-center py-10 text-gray-500">
+                           {isLoading ? (
+                             <div className="flex items-center justify-center gap-2">
+                               <div className="w-2 h-2 rounded-full bg-primary animate-bounce" />
+                               <div className="w-2 h-2 rounded-full bg-primary animate-bounce delay-100" />
+                               <div className="w-2 h-2 rounded-full bg-primary animate-bounce delay-200" />
+                             </div>
+                           ) : "Destinations loading..."}
+                         </div>
+                       )}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Packages Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="rounded-full px-4 h-9 text-gray-700 hover:text-primary hover:bg-gray-50 bg-transparent text-sm font-medium focus:bg-gray-50 data-[state=open]:bg-gray-50">
+                    Packages
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="w-[800px] p-0 flex outline-none h-full">
+                       {/* Featured Sidebar */}
+                       <div className="w-1/4 bg-gray-50 p-6 flex flex-col justify-between border-r border-gray-100">
+                          <div>
+                            <h4 className="font-serif font-bold text-lg text-gray-900 mb-2">Featured</h4>
+                            <p className="text-xs text-gray-500 mb-4">Handpicked tours for the ultimate experience.</p>
+                          </div>
+                          <Link href="/packages" className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                            View All <ArrowRight className="w-4 h-4" />
+                          </Link>
+                       </div>
+                       
+                       {/* Grid */}
+                       <div className="w-3/4 p-6 grid grid-cols-2 gap-4">
+                          {isLoading ? (
+                            Array(4).fill(0).map((_, i) => (
+                              <div key={i} className="flex gap-3">
+                                <Skeleton className="w-16 h-16 rounded-lg shrink-0" />
+                                <div className="space-y-1 w-full">
+                                  <Skeleton className="h-4 w-3/4" />
+                                  <Skeleton className="h-3 w-1/2" />
                                 </div>
-                              ))}
-                            </>
+                              </div>
+                            ))
+                          ) : popularPackages.length > 0 ? (
+                            popularPackages.map((pkg) => (
+                               <Link key={pkg._id} href={`/packages/${pkg.slug || pkg._id}`} className="flex gap-4 group/card p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                                 <div className="w-20 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-200">
+                                   {pkg.images?.[0] && (
+                                     <img src={pkg.images[0]} alt={pkg.title} className="w-full h-full object-cover transition-transform group-hover/card:scale-105" />
+                                   )}
+                                 </div>
+                                 <div className="flex-1 min-w-0">
+                                   <h5 className="font-bold text-gray-900 text-sm truncate group-hover/card:text-primary transition-colors">{pkg.title}</h5>
+                                   <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                                      {pkg.duration && <span>{pkg.duration}</span>}
+                                      <span>•</span>
+                                      <span>{getRegion(pkg.title, pkg.overview)}</span>
+                                   </div>
+                                   {pkg.price && <div className="text-xs font-semibold text-primary mt-1">{pkg.price.startsWith('$') || pkg.price.match(/^\d/) ? (pkg.price.includes('$') ? pkg.price : `$${pkg.price}`) : pkg.price}</div>}
+                                 </div>
+                               </Link>
+                            ))
                           ) : (
-                            // Simple array structure (Packages, Experiences, etc.)
-                            <div className="space-y-1">
-                              {(item.dropdown as string[]).map((subItem) => (
-                                <DropdownMenuItem key={subItem} asChild>
-                                  <Link
-                                    href={`/${item.label.toLowerCase().replace(/\s+/g, '-')}/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                                    className="group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary outline-none transition-all duration-200 cursor-pointer"
-                                  >
-                                    <span>{subItem}</span>
-                                    <ChevronRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-primary/50" />
-                                  </Link>
-                                </DropdownMenuItem>
-                              ))}
-                            </div>
+                            <div className="col-span-2 text-sm text-gray-500 flex items-center justify-center p-4">No packages found</div>
                           )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    ) : (
-                      <NavigationMenuLink
-                        href={`/${item.label.toLowerCase().replace(/\s+/g, '-')}`}
-                        className={cn(
-                          "text-sm font-medium tracking-wide transition-all duration-300 px-4 py-2 rounded-full",
-                          navTextClass,
-                          isScrolled 
-                            ? "hover:bg-gray-100" 
-                            : "hover:bg-white/10 hover:backdrop-blur-sm"
-                        )}
-                      >
-                        {item.label}
-                      </NavigationMenuLink>
-                    )}
-                  </NavigationMenuItem>
-                ))}
+                       </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Experiences */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="rounded-full px-4 h-9 text-gray-700 hover:text-primary hover:bg-gray-50 bg-transparent text-sm font-medium focus:bg-gray-50 data-[state=open]:bg-gray-50">
+                    Experiences
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                     <ul className="w-[300px] p-3 outline-none">
+                       {["Honeymoon", "Adventure", "Family", "Luxury", "Wildlife"].map((exp) => (
+                         <li key={exp}>
+                           <Link href={`/packages?experience=${exp.toLowerCase()}`} className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 rounded-lg text-sm text-gray-700 hover:text-primary font-medium transition-colors">
+                             {exp}
+                             <ChevronRight className="w-3 h-3 text-gray-300" />
+                           </Link>
+                         </li>
+                       ))}
+                     </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* About & Contact */}
+                <NavigationMenuItem>
+                  <Link href="/about" legacyBehavior passHref>
+                    <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                      About Us
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                
+                <NavigationMenuItem>
+                  <Link href="/contact" legacyBehavior passHref>
+                    <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                      Contact
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
-          {/* CTA Button - Desktop */}
-          <div className="hidden lg:block">
-            <Button
-              asChild
-              className="rounded-full font-medium text-sm transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <Link href="/enquire">
-                Enquire Now
-              </Link>
-            </Button>
+          {/* CTA & Mobile Toggle */}
+          <div className="flex items-center gap-3 shrink-0">
+             <Button asChild className="hidden sm:inline-flex rounded-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all h-10 px-6 font-medium">
+               <Link href="/enquire">Enquire Now</Link>
+             </Button>
+             
+             <button 
+               className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+             >
+               {isMobileMenuOpen ? <X className="w-6 h-6 z-50 relative" /> : <Menu className="w-6 h-6" />}
+             </button>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className={cn(
-              "lg:hidden z-50 relative p-2 transition-colors duration-300",
-              navTextClass
-            )}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col transition-all duration-500 lg:hidden",
-          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-      >
-        <div className="flex-1 overflow-y-auto pt-24 pb-24 px-6">
-          <div className="flex flex-col gap-6">
-            {NAV_ITEMS.map((item) => {
-              const isExpanded = expandedMobileItems[item.label] || false;
-              return (
-                <div key={item.label}>
-                  <button
-                    onClick={() => toggleMobileItem(item.label)}
-                    className="w-full flex items-center justify-between text-xl font-medium text-white/90 hover:text-white transition-colors py-2"
-                  >
-                    <span>{item.label}</span>
-                    {item.hasDropdown && (
-                      <X className={cn(
-                        "w-5 h-5 transition-transform",
-                        isExpanded ? "rotate-45" : "rotate-0"
-                      )} />
-                    )}
-                  </button>
-                  {item.hasDropdown && isExpanded && (
-                    <div className="mt-2 ml-4 space-y-2 border-l border-white/20 pl-4">
-                      {isDropdownObject(item.dropdown) ? (
-                        Object.entries(item.dropdown).map(([region, countries]) => (
-                          <div key={region} className="space-y-2">
-                            <div className="text-sm font-semibold text-white/70 uppercase tracking-wider">
-                              {region}
-                            </div>
-                            {countries.map((country) => (
-                              <Link
-                                key={country}
-                                href={`/destinations/${country.toLowerCase().replace(/\s+/g, '-')}`}
-                                className="block text-base text-white/80 hover:text-white transition-colors py-1"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                {country}
-                              </Link>
-                            ))}
-                          </div>
-                        ))
-                      ) : (
-                        (item.dropdown as string[]).map((subItem) => (
-                          <Link
-                            key={subItem}
-                            href={`/${item.label.toLowerCase().replace(/\s+/g, '-')}/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="block text-base text-white/80 hover:text-white transition-colors py-1"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            {subItem}
-                          </Link>
-                        ))
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-white animate-in slide-in-from-bottom-5 fade-in duration-300 overflow-y-auto pt-28 pb-10 px-6 md:px-10">
+           <div className="max-w-md mx-auto space-y-8">
+             
+             {/* Mobile Destination Links */}
+             <div className="space-y-4">
+               <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Destinations</h3>
+               <div className="space-y-4">
+                 {Object.keys(destinationsByRegion).map((region) => (
+                   <div key={region} className="border-b border-gray-100 pb-3">
+                     <Link href={`/packages?destination=${region}`} className="block text-lg font-bold text-gray-900 mb-2" onClick={() => setIsMobileMenuOpen(false)}>
+                       {region}
+                     </Link>
+                     <div className="flex flex-wrap gap-2">
+                       {destinationsByRegion[region].slice(0, 5).map((dest) => (
+                         <Link key={dest} href={`/packages?query=${dest}`} className="text-sm text-gray-600 bg-gray-50 px-2 py-1 rounded-md" onClick={() => setIsMobileMenuOpen(false)}>
+                           {dest}
+                         </Link>
+                       ))}
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
 
-      {/* Mobile Fixed Bottom Buttons */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/90 backdrop-blur-md border-t border-white/10">
-        <div className="flex items-center justify-center gap-4 p-4">
-          <a
-            href="tel:+1234567890"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary/90 text-white rounded-full font-medium text-sm transition-all"
-          >
-            <Phone className="w-4 h-4" />
-            <span>Call Now</span>
-          </a>
-          <a
-            href="https://wa.me/1234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-full font-medium text-sm transition-all"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp</span>
-          </a>
+             {/* Links */}
+             <div className="flex flex-col gap-4 text-lg font-medium text-gray-900">
+               <Link href="/packages" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between border-b border-gray-100 pb-2">
+                 All Packages <ArrowRight className="w-4 h-4" />
+               </Link>
+               <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-gray-100 pb-2">About Us</Link>
+               <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-gray-100 pb-2">Contact</Link>
+             </div>
+
+             {/* Mobile CTA */}
+             <div className="space-y-3 pt-4">
+               <Button asChild className="w-full h-12 rounded-full text-lg shadow-xl shadow-primary/20">
+                 <Link href="/enquire" onClick={() => setIsMobileMenuOpen(false)}>Plan Your Trip</Link>
+               </Button>
+               <div className="grid grid-cols-2 gap-3">
+                 <Button variant="outline" className="h-10 rounded-full border-gray-200" asChild>
+                   <Link href="/contact">Call Us</Link>
+                 </Button>
+                 <Button className="h-10 rounded-full bg-[#25D366] hover:bg-[#128C7E] text-white hover:text-white" asChild>
+                   <Link href="https://wa.me/123456789">WhatsApp</Link>
+                 </Button>
+               </div>
+             </div>
+
+           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
