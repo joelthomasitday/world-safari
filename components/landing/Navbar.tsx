@@ -17,6 +17,13 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 // --- Types ---
 
@@ -65,7 +72,7 @@ const KNOWN_DESTINATIONS = [
 ];
 
 export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const [packages, setPackages] = React.useState<Package[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -158,20 +165,75 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
     <>
      <header className={navClasses}>
   <div className="mx-auto max-w-7xl">
-    <div className="flex items-center justify-between h-full px-4 lg:px-6 pt-6 pb-3 lg:pt-4 lg:pb-0">
+    <div className="relative flex items-center justify-between h-full px-4 lg:px-6 pt-6 pb-3 lg:pt-4 lg:pb-0">
+          {/* Mobile Title */}
+          <div className="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-1.5 font-bold text-lg text-gray-900 pointer-events-none">
+           World Safari Tours
+          </div>
           {/* Left: Mobile menu + Logo */}
           <div className="flex items-center gap-3">
             {/* Mobile burger (left on mobile, hidden on desktop) */}
-            <button
-              className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6 z-50 relative" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <button
+                  className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[85vw] sm:w-[380px] p-0">
+                <div className="flex flex-col h-full bg-white">
+                  <SheetHeader className="p-6 text-left border-b border-gray-100">
+                    <SheetTitle className="flex items-center gap-2">
+                       <div className="relative w-8 h-8">
+                         <Image
+                           src="/WST-logo.png"
+                           alt="World Safari logo"
+                           fill
+                           className="object-contain"
+                         />
+                       </div>
+                       <span className="font-bold text-lg">World Safari</span>
+                    </SheetTitle>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto py-6 px-6">
+                    <div className="flex flex-col gap-6 text-base font-medium text-gray-900">
+                       <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center justify-between">
+                         Home
+                       </Link>
+                       <Link href="/packages" onClick={() => setIsOpen(false)} className="flex items-center justify-between">
+                         All Packages <ChevronRight className="w-4 h-4 text-gray-400" />
+                       </Link>
+                       <Link href="/about" onClick={() => setIsOpen(false)}>About Us</Link>
+                       <Link href="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
+                    </div>
+
+                    <div className="mt-8 pt-8 border-t border-gray-100">
+                       <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Support</h4>
+                       <div className="grid gap-3">
+                         <Button variant="outline" className="w-full justify-start gap-2 h-11" asChild>
+                           <Link href="/contact">
+                             <Phone className="w-4 h-4" /> Call Us
+                           </Link>
+                         </Button>
+                         <Button className="w-full justify-start gap-2 h-11 bg-[#25D366] hover:bg-[#128C7E] text-white hover:text-white" asChild>
+                           <Link href="https://wa.me/123456789">
+                             <MessageCircle className="w-4 h-4" /> WhatsApp
+                           </Link>
+                         </Button>
+                       </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6 bg-gray-50 border-t border-gray-100">
+                     <Button asChild className="w-full h-11 rounded-xl shadow-lg shadow-primary/20">
+                       <Link href="/contact" onClick={() => setIsOpen(false)}>Plan Your Trip</Link>
+                     </Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -185,7 +247,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 />
               </div>
               <span className="text-xl font-bold tracking-tight text-gray-900 hidden md:block">
-                World Safari
+             World Safari Tours
+
               </span>
             </Link>
           </div>
@@ -307,39 +370,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
         </div>
       </header>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-white animate-in slide-in-from-bottom-5 fade-in duration-300 overflow-y-auto pt-28 pb-10 px-6 md:px-10">
-           <div className="max-w-md mx-auto space-y-8">
-             
-             {/* Links */}
-             <div className="flex flex-col gap-4 text-lg font-medium text-gray-900">
-               <Link href="/packages" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between border-b border-gray-100 pb-2">
-                 All Packages <ArrowRight className="w-4 h-4" />
-               </Link>
-               <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-gray-100 pb-2">About Us</Link>
-               <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="border-b border-gray-100 pb-2">Contact</Link>
-             </div>
 
-            {/* Mobile CTA */}
-            <div className="space-y-3 pt-4">
-               <Button asChild className="w-full h-12 rounded-full text-lg shadow-xl shadow-primary/20">
-                 {/* Route to existing contact/enquiry flow */}
-                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Plan Your Trip</Link>
-               </Button>
-               <div className="grid grid-cols-2 gap-3">
-                 <Button variant="outline" className="h-10 rounded-full border-gray-200" asChild>
-                   <Link href="/contact">Call Us</Link>
-                 </Button>
-                 <Button className="h-10 rounded-full bg-[#25D366] hover:bg-[#128C7E] text-white hover:text-white" asChild>
-                   <Link href="https://wa.me/123456789">WhatsApp</Link>
-                 </Button>
-               </div>
-             </div>
-
-           </div>
-        </div>
-      )}
     </>
   );
 }
