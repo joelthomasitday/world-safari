@@ -41,6 +41,14 @@ export function Footer() {
             <p className="text-gray-500 text-sm leading-relaxed">
               Crafting unforgettable luxury safaris and travel experiences since 2008.
             </p>
+            <div className="mt-8">
+               <Link 
+                 href="/admin/login" 
+                 className="text-sm text-gray-400 opacity-40 hover:opacity-100 transition-opacity no-underline"
+               >
+                 Staff Login
+               </Link>
+            </div>
           </div>
 
           {/* Links - Column 1 */}
@@ -95,14 +103,7 @@ export function Footer() {
               ))}
             </div>
             
-            <div className="mt-8">
-               <Link 
-                 href="/admin/login" 
-                 className="text-sm text-gray-400 opacity-40 hover:opacity-100 transition-opacity no-underline"
-               >
-                 Staff Login
-               </Link>
-            </div>
+          
           </div>
         </div>
 
@@ -111,7 +112,9 @@ export function Footer() {
           <div className="flex gap-6 mt-4 md:mt-0">
              <span>Design by World Safari Team</span>
           </div>
+          
         </div>
+        
       </div>
     </footer>
   );

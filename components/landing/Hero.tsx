@@ -31,12 +31,12 @@ export function Hero() {
         <div className="flex-1 flex flex-col items-center justify-center text-center">
           {/* Main Title */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-normal tracking-wide mb-4 drop-shadow-lg">
-            Adams & Butler
+           Welcome Aboard
           </h1>
 
           {/* Subtitle */}
           <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-sans font-bold tracking-tight mb-12 drop-shadow-lg">
-            Hallmark of Luxury Travel
+            Curated Journeys Beyond Expectations
           </h2>
 
           {/* Call to Action Buttons - Pill Shaped */}

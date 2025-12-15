@@ -30,9 +30,11 @@ export function ContactInfo() {
                   <div className="space-y-2">
                     <h4 className="font-medium text-gray-900 text-lg">Our Office</h4>
                     <p className="text-gray-500 font-light leading-relaxed">
-                      123 Safari Avenue, Level 4,<br />
-                      Cape Town, 8001,<br />
-                      South Africa
+                      WORLD SAFARI TOURS ( Travel division of Transzia Pvt Ltd )<br />
+                      VI/858-M, Second Floor,<br />
+                      Valamkottil Towers, Judgemukku,<br />
+                      Thrikkakara, Ernakulam,<br />
+                      Kochi, Kerala, India
                     </p>
                   </div>
                 </CardContent>
@@ -48,8 +50,7 @@ export function ContactInfo() {
                     <div>
                       <h4 className="font-medium text-gray-900 mb-1">Phone</h4>
                       <p className="text-sm text-gray-500 font-light">
-                        +27 (0) 21 123 4567<br />
-                        <span className="text-xs text-gray-400 mt-1 block">Toll Free: 1-800-SAFARI</span>
+                        9947247200
                       </p>
                     </div>
                   </CardContent>
@@ -63,8 +64,11 @@ export function ContactInfo() {
                     <div>
                       <h4 className="font-medium text-gray-900 mb-1">Email</h4>
                       <p className="text-sm text-gray-500 font-light break-words">
-                        hello@worldsafari.com<br />
-                        support@worldsafari.com
+                        goworldsafari@gmail.com<br />
+                        mail@worldsafari.in<br />
+                        <a href="https://www.worldsafari.in/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                          https://www.worldsafari.in/
+                        </a>
                       </p>
                     </div>
                   </CardContent>
@@ -97,7 +101,7 @@ export function ContactInfo() {
             <Card className="h-full border-none shadow-lg overflow-hidden rounded-3xl relative group">
               <div className="absolute inset-0 z-0 bg-gray-200 animate-pulse" /> {/* Placeholder/Loading state visual */}
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.633129665984!2d18.42198037648356!3d-33.92473202179831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc676251b181a3%3A0xc3191d8e178553!2sCape%20Town%20City%20Centre%2C%20Cape%20Town%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1703649182046!5m2!1sen!2sus" 
+                src="https://maps.google.com/maps?q=Valamkottil+Towers,+Judgemukku,+Thrikkakara,+Kochi,+Kerala&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 

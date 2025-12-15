@@ -273,19 +273,19 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* About & Contact */}
                 <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
-                      About Us
-                    </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                  <Link href="/about" className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                    About Us
                   </Link>
+                </NavigationMenuLink>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
-                  <Link href="/contact" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
-                      Contact
-                    </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                  <Link href="/contact" className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                    Contact
                   </Link>
+                </NavigationMenuLink>
                 </NavigationMenuItem>
 
               </NavigationMenuList>
