@@ -52,7 +52,7 @@ export function PackageCard({ pkg }: PackageCardProps) {
           </h3>
 
           {/* Description */}
-          <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-1 flex-grow">
+          <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-1 grow">
             {pkg.description}
           </p>
 
@@ -60,7 +60,7 @@ export function PackageCard({ pkg }: PackageCardProps) {
           <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
             <div className="text-sm font-medium text-gray-500">
               {pkg.price ? (
-                <span className="text-gray-900 font-bold text-lg">{pkg.price}</span>
+                <span className="text-gray-900 font-bold text-lg">₹ {pkg.price?.toString().replace('$', '')}</span>
               ) : (
                 <span className="italic">Price on request</span>
               )}

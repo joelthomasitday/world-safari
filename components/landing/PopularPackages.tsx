@@ -133,7 +133,7 @@ export function PopularPackages() {
                   
                   <div className="mt-8 flex items-center justify-between">
                     <span className="text-lg font-light text-white/90">
-                      {pkg.price}
+                      ₹ {pkg.price?.toString().replace('$', '')}
                     </span>
                     
                     {/* Reuse Hero Button Style exactly */}

@@ -39,7 +39,7 @@ interface Package {
   _id: string;
   title: string;
   duration: string;
-  price: number;
+  price: string | number;
   isActive: boolean;
   createdAt: string;
 }
@@ -103,11 +103,10 @@ export default function PackagesPage() {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
+  const formatPrice = (price: string | number) => {
+    // Clean the price string if it has any currency symbols
+    const cleanPrice = price?.toString().replace(/[^0-9,.]/g, '') || '0';
+    return `₹ ${cleanPrice}`;
   };
 
   return (

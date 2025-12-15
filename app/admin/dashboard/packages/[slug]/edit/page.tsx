@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { PackageForm } from "@/components/package-form";
 
 interface EditPackagePageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export default function EditPackagePage({ params }: EditPackagePageProps) {
-  const { id } = use(params);
+  const { slug } = use(params);
 
   return (
     <div className="space-y-6">
@@ -32,7 +32,7 @@ export default function EditPackagePage({ params }: EditPackagePageProps) {
       </div>
 
       {/* Package Form in Edit Mode */}
-      <PackageForm packageId={id} />
+      <PackageForm packageId={slug} />
     </div>
   );
 }

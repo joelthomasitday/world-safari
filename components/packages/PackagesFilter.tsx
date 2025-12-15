@@ -31,7 +31,7 @@ export function PackagesFilter({ filters, setFilters }: PackagesFilterProps) {
   };
 
   return (
-    <div className="sticky top-[88px] z-30 w-full bg-white/80 backdrop-blur-md border-b border-gray-100/50 transition-all duration-300">
+    <div className="w-full bg-white/80 backdrop-blur-md border-b border-gray-100/50 transition-all duration-300">
       <div className="container mx-auto px-6 py-4">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
           
