@@ -10,6 +10,9 @@ import { PackageItinerary } from "@/components/package-details/PackageItinerary"
 import { PackageInclusions } from "@/components/package-details/PackageInclusions";
 import { VisaInfo } from "@/components/package-details/VisaInfo";
 import { EnquiryForm } from "@/components/package-details/EnquiryForm";
+import { connectDB } from "@/lib/mongodb";
+import Package from "@/models/Package";
+import { isValidObjectId } from "@/lib/utils/slug";
 
 // Type definition for package data from API
 interface PackageData {
@@ -29,46 +32,26 @@ interface PackageData {
 }
 
 // Fetch package data from the API
+// Fetch package data directly from the DB
 async function getPackage(id: string): Promise<PackageData | null> {
   try {
-    // Build an absolute URL for server-side fetch, handling both full and relative env values.
-    const envBase = process.env.NEXT_PUBLIC_API_BASE || process.env.NEXT_API_BASE;
-    const defaultOrigin = "http://localhost:3000";
-
-    let url: string;
-
-    if (envBase && /^https?:\/\//i.test(envBase)) {
-      // Env already contains full origin (e.g. "http://localhost:3000/api")
-      const base = envBase.replace(/\/+$/, "");
-      // Use a relative path (no leading slash) so any "/api" path segment on base is preserved
-      url = new URL(`packages/${id}`, `${base}/`).toString();
-    } else {
-      // Env is missing or a relative path like "/api" → combine with localhost origin
-      const basePath = (envBase && envBase.startsWith("/")) ? envBase : "/api";
-      const origin = defaultOrigin.replace(/\/+$/, "");
-      // Build "/api/packages/{id}" relative to the origin
-      url = new URL(
-        `${basePath.replace(/\/+$/, "")}/packages/${id}`,
-        `${origin}/`
-      ).toString();
-    }
-
-    const res = await fetch(url, { 
-      cache: 'no-store' // Always fetch fresh data
-    });
+    await connectDB();
     
-    if (!res.ok) {
-      return null;
+    let pkg;
+    
+    // Support both _id (legacy) and slug (SEO-friendly) lookups
+    if (isValidObjectId(id)) {
+      pkg = await Package.findById(id).lean();
     }
     
-    const data = await res.json();
-    
-    // Check if we got valid data (not an error response)
-    if (!data || data.error || !data._id) {
-      return null;
+    if (!pkg) {
+      pkg = await Package.findOne({ slug: id }).lean();
     }
     
-    return data;
+    if (!pkg) return null;
+    
+    // Convert to regular object to serialized fields like _id
+    return JSON.parse(JSON.stringify(pkg));
   } catch (error) {
     console.error('Error fetching package:', error);
     return null;
