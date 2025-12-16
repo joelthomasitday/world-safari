@@ -256,11 +256,11 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-center flex-1 mx-4">
             <NavigationMenu delayDuration={0}>
-              <NavigationMenuList className="gap-1">
+              <NavigationMenuList className="gap-8">
 
                 {/* Packages Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-4 h-9 text-gray-700 hover:text-primary hover:bg-gray-50 bg-transparent text-sm font-medium focus:bg-gray-50 data-[state=open]:bg-gray-50">
+                  <NavigationMenuTrigger className="rounded-full px-5 h-10 text-base font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
                     Packages
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -317,7 +317,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* Experiences */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-4 h-9 text-gray-700 hover:text-primary hover:bg-gray-50 bg-transparent text-sm font-medium focus:bg-gray-50 data-[state=open]:bg-gray-50">
+                  <NavigationMenuTrigger className="rounded-full px-5 h-10 text-base font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
                     Experiences
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -337,7 +337,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 {/* About & Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/about" className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                  <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-5 py-2 text-base font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                     About Us
                   </Link>
                 </NavigationMenuLink>
@@ -345,7 +345,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/contact" className="group inline-flex h-9 w-max items-center justify-center rounded-full bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-primary focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700">
+                  <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-5 py-2 text-base font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                     Contact
                   </Link>
                 </NavigationMenuLink>
