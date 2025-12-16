@@ -1,28 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Instagram, Phone, Mail } from "lucide-react";
+import Image from "next/image";
+import { Facebook, Instagram, Phone, Mail, Linkedin } from "lucide-react";
 
 const SOCIAL_LINKS = [
   {
     Icon: Facebook,
     href: "https://www.facebook.com/worldsafaritoursandtravels/",
     label: "World Safari Tours and Travels on Facebook",
+    name: "Facebook",
   },
   {
     Icon: Phone,
     href: "https://wa.me/919947247200",
     label: "Chat on WhatsApp",
+    name: "WhatsApp",
   },
   {
     Icon: Instagram,
     href: "https://www.instagram.com/worldsafaritours",
     label: "World Safari Tours on Instagram",
+    name: "Instagram",
+  },
+  {
+    Icon: Linkedin,
+    href: "https://www.linkedin.com/in/shajiworldsafaritours/",
+    label: "World Safari Tours on LinkedIn",
+    name: "LinkedIn",
   },
   {
     Icon: Mail,
     href: "mailto:mail@worldsafari.in",
     label: "Email Us",
+    name: "Email",
   },
 ];
 
@@ -42,12 +53,13 @@ export function Footer() {
               Crafting unforgettable luxury safaris and travel experiences since 2008.
             </p>
             <div className="mt-8">
-               <Link 
-                 href="/admin/login" 
-                 className="text-sm text-gray-400 opacity-40 hover:opacity-100 transition-opacity no-underline"
-               >
-                 Staff Login
-               </Link>
+              <Image 
+                src="/world-safari-logo-full.png" 
+                alt="World Safari Tours Logo" 
+                width={160} 
+                height={160}
+                className="object-contain opacity-90 hover:opacity-100 transition-opacity"
+              />
             </div>
           </div>
 
@@ -82,27 +94,37 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                 <Link
+                   href="/admin/login"
+                   className="text-gray-500 hover:text-primary transition-colors text-sm"
+                 >
+                   Staff Login
+                 </Link>
+              </li>
             </ul>
           </div>
 
           {/* Social / Newsletter */}
           <div>
-            <h4 className="font-sans font-bold text-sm uppercase tracking-widest mb-6">Follow Us</h4>
-            <div className="flex gap-4">
-              {SOCIAL_LINKS.map(({ Icon, href, label }) => (
+            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-6 text-primary">Follow Us</h4>
+            <div className="flex gap-4 flex-wrap">
+              {SOCIAL_LINKS.map(({ Icon, href, label, name }) => (
                 <a
                   key={href}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-primary hover:text-white hover:border-primary transition-all"
+                  className="flex flex-col items-center gap-2 group"
                 >
-                  <Icon className="w-4 h-4" />
+                  <div className="w-12 h-12 rounded-full border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-primary group-hover:text-white group-hover:border-primary group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 group-hover:text-primary transition-colors">{name}</span>
                 </a>
               ))}
             </div>
-            
           
           </div>
         </div>
