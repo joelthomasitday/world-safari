@@ -303,7 +303,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                                       <span>•</span>
                                       <span>{getRegion(pkg.title, pkg.overview)}</span>
                                    </div>
-                                   {pkg.price && <div className="text-xs font-semibold text-primary mt-1">{pkg.price.startsWith('$') || pkg.price.match(/^\d/) ? (pkg.price.includes('$') ? pkg.price : `$${pkg.price}`) : pkg.price}</div>}
+                                   {pkg.price && <div className="text-xs font-semibold text-primary mt-1">{pkg.price.includes('$') ? pkg.price.replace('$', '₹') : (pkg.price.match(/^\d/) && !pkg.price.includes('₹') ? `₹${pkg.price}` : pkg.price)}</div>}
                                  </div>
                                </Link>
                             ))
