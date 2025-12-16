@@ -69,14 +69,14 @@ export default function InquiriesPage() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch inquiries");
+        throw new Error("Failed to fetch enquiries");
       }
 
       const data = await response.json();
       setInquiries(data);
     } catch (error) {
       console.error("Error fetching inquiries:", error);
-      toast.error("Failed to load inquiries");
+      toast.error("Failed to load enquiries");
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export default function InquiriesPage() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update inquiry");
+        throw new Error("Failed to update enquiry");
       }
 
       // Update UI instantly
@@ -112,10 +112,10 @@ export default function InquiriesPage() {
         )
       );
 
-      toast.success("Inquiry marked as handled");
+      toast.success("Enquiry marked as handled");
     } catch (error) {
       console.error("Error updating inquiry:", error);
-      toast.error("Failed to update inquiry");
+      toast.error("Failed to update enquiry");
     } finally {
       setProcessingId(null);
     }
@@ -137,16 +137,16 @@ export default function InquiriesPage() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to delete inquiry");
+        throw new Error("Failed to delete enquiry");
       }
 
       // Update UI instantly
       setInquiries((prev) => prev.filter((inquiry) => inquiry._id !== id));
 
-      toast.success("Inquiry deleted successfully");
+      toast.success("Enquiry deleted successfully");
     } catch (error) {
       console.error("Error deleting inquiry:", error);
-      toast.error("Failed to delete inquiry");
+      toast.error("Failed to delete enquiry");
     } finally {
       setProcessingId(null);
     }
@@ -187,9 +187,9 @@ export default function InquiriesPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Manage Inquiries</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Manage Enquiries</h1>
           <p className="text-muted-foreground mt-1">
-            View and respond to customer inquiries
+            View and respond to customer enquiries
           </p>
         </div>
         {!loading && (
@@ -207,9 +207,9 @@ export default function InquiriesPage() {
       {/* Inquiries Content */}
       <Card>
         <CardHeader>
-          <CardTitle>All Inquiries</CardTitle>
+          <CardTitle>All Enquiries</CardTitle>
           <CardDescription>
-            Customer inquiries are sorted by most recent first
+            Customer enquiries are sorted by most recent first
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -218,9 +218,9 @@ export default function InquiriesPage() {
           ) : inquiries.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <MessageSquare className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="font-semibold text-lg mb-1">No inquiries yet</h3>
+              <h3 className="font-semibold text-lg mb-1">No enquiries yet</h3>
               <p className="text-muted-foreground">
-                When customers submit inquiries, they will appear here
+                When customers submit enquiries, they will appear here
               </p>
             </div>
           ) : (
@@ -451,7 +451,7 @@ function DeleteInquiryDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete the inquiry from &quot;{inquiryName}&quot;.
+            This will permanently delete the enquiry from &quot;{inquiryName}&quot;.
             This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>

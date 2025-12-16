@@ -61,7 +61,7 @@ export default function DashboardPage() {
           const inqData = await inqRes.json();
           setInquiries(inqData);
         } else {
-             console.error("Failed to fetch inquiries:", inqRes.statusText);
+             console.error("Failed to fetch enquiries:", inqRes.statusText);
         }
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
@@ -131,13 +131,13 @@ export default function DashboardPage() {
         {/* Total Inquiries Card */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Inquiries</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Enquiries</CardTitle>
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalInquiries}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              All time inquiries
+              All time enquiries
             </p>
           </CardContent>
         </Card>
@@ -145,7 +145,7 @@ export default function DashboardPage() {
         {/* Pending Inquiries Card */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Inquiries</CardTitle>
+            <CardTitle className="text-sm font-medium">Pending Enquiries</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -161,15 +161,15 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Inquiries</CardTitle>
+            <CardTitle>Recent Enquiries</CardTitle>
             <CardDescription>
-              Latest inquiries from potential customers
+              Latest enquiries from potential customers
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentInquiries.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No inquiries yet.</p>
+                <p className="text-sm text-muted-foreground">No enquiries yet.</p>
               ) : (
                 recentInquiries.map((inquiry) => (
                   <div
@@ -181,7 +181,7 @@ export default function DashboardPage() {
                       <p className="text-sm text-muted-foreground">
                         {inquiry.destination
                           ? `Interested in ${inquiry.destination}`
-                          : "General Inquiry"}
+                          : "General Enquiry"}
                       </p>
                     </div>
                     <Badge variant={inquiry.handled ? "secondary" : "destructive"}>

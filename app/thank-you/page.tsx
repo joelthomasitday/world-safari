@@ -34,7 +34,7 @@ export default function ThankYouPage() {
 
             {/* Message */}
             <p className="text-lg text-[#555] leading-relaxed mb-4">
-              Your inquiry has been successfully submitted.
+              Your enquiry has been successfully submitted.
             </p>
             <p className="text-[#555] leading-relaxed mb-10">
               Our travel specialists will review your request and get back to you 

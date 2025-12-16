@@ -119,7 +119,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-[#555] leading-relaxed mb-8">
               Our team of experienced travel consultants is dedicated to making your 
-              dream journey a reality. From your first inquiry to your safe return home, 
+              dream journey a reality. From your first enquiry to your safe return home, 
               we&apos;re with you every step of the way.
             </p>
             <a
