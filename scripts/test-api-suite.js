@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const BASE_URL = 'http://localhost:3000/api';
-const ADMIN_EMAIL = 'admin@wsafari.com';
-const ADMIN_PASSWORD = 'yourpassword';
+const ADMIN_EMAIL = 'admin@worldsafaritours';
+const ADMIN_PASSWORD = '#@!WorldSafari2025';
 
 async function runTests() {
   console.log('🚀 Starting API Test Suite...\n');
