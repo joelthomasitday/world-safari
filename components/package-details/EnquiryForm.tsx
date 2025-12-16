@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CalendarIcon, Loader2, Send } from "lucide-react";
+import { CalendarIcon, Loader2, Send, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -92,8 +92,16 @@ export function EnquiryForm({ packageTitle }: { packageTitle: string }) {
 
       toast.success("Enquiry received! We will contact you shortly.");
 
-      // Redirect to thank you page (mock) or just show success
-      // In a real app: router.push("/thank-you");
+      const whatsappMessage = `*New Enquiry for ${packageTitle}*\n` +
+        `Name: ${values.name}\n` +
+        `Email: ${values.email}\n` +
+        `Phone: ${values.phone}\n` +
+        `Travel Dates: ${format(values.travelStartDate, "PPP")} - ${format(values.travelEndDate, "PPP")}\n` +
+        `Travelers: ${values.travelers}\n` +
+        `Message: ${values.message || ""}`;
+
+      window.location.href = `https://wa.me/919947247200?text=${encodeURIComponent(whatsappMessage)}`;
+      
       form.reset();
     } catch (error) {
       console.error("Error submitting enquiry:", error);
@@ -308,6 +316,28 @@ export function EnquiryForm({ packageTitle }: { packageTitle: string }) {
                     <Send className="ml-2 h-4 w-4" />
                   </>
                 )}
+              </Button>
+
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-white px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-green-600 text-green-600 hover:bg-green-50 hover:text-green-700 rounded-full py-6 text-lg"
+                onClick={() => {
+                  const text = `Hi, I'm interested in booking the ${packageTitle} package. Can you please help me with the details?`;
+                  window.open(`https://wa.me/919947247200?text=${encodeURIComponent(text)}`, '_blank');
+                }}
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Chat on WhatsApp
               </Button>
             </form>
           </Form>
