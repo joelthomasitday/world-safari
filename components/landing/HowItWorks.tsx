@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+
 export function HowItWorks() {
   const steps = [
     {
@@ -22,22 +24,26 @@ export function HowItWorks() {
   return (
     <section className="py-20 md:py-32 bg-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-gray-900 mb-16 md:mb-24 text-center">
-          How It Works
-        </h2>
+        <ScrollReveal animation="reveal" delay={100}>
+          <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-gray-900 mb-16 md:mb-24 text-center">
+            How It Works
+          </h2>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
           {/* Connector Line (Desktop) */}
           <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-px bg-gray-200 -z-10" />
 
           {steps.map((step, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center bg-white">
-              <div className="w-24 h-24 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-3xl font-bold text-primary mb-8 relative z-10">
-                {step.num}
+            <ScrollReveal key={idx} animation="reveal" delay={100 + idx * 200}>
+              <div className="flex flex-col items-center text-center bg-white group">
+                <div className="w-24 h-24 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-3xl font-bold text-primary mb-8 relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:border-primary/20 group-hover:shadow-lg">
+                  {step.num}
+                </div>
+                <h3 className="text-2xl font-sans font-bold text-gray-900 mb-4">{step.title}</h3>
+                <p className="text-gray-500 leading-relaxed font-light max-w-xs">{step.desc}</p>
               </div>
-              <h3 className="text-2xl font-sans font-bold text-gray-900 mb-4">{step.title}</h3>
-              <p className="text-gray-500 leading-relaxed font-light max-w-xs">{step.desc}</p>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

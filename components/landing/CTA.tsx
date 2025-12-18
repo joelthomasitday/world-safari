@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export function CTA() {
   return (
@@ -18,22 +19,29 @@ export function CTA() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold mb-8 tracking-tight drop-shadow-lg">
-          Not sure where to go?
-        </h2>
-        <p className="text-lg md:text-xl font-light text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-          Let our experienced guides help you plan the perfect journey into the wild. 
-          Tailored specifically to your dreams.
-        </p>
+      <div className="relative z-10 container mx-auto px-6 font-sans">
+        <ScrollReveal animation="reveal" delay={100}>
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-8 tracking-tight drop-shadow-lg text-balance">
+            Not sure where to go?
+          </h2>
+        </ScrollReveal>
+        
+        <ScrollReveal animation="reveal" delay={300}>
+          <p className="text-lg md:text-xl font-light text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-md text-balance">
+            Let our experienced guides help you plan the perfect journey into the wild. 
+            Tailored specifically to your dreams.
+          </p>
+        </ScrollReveal>
 
-        <Link
-          href="/contact"
-          className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black transition-all inline-flex items-center gap-2 mx-auto"
-        >
-          <span>Start Your Journey</span>
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+        <ScrollReveal animation="reveal-scale" delay={500}>
+          <Link
+            href="/contact"
+            className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-medium text-base hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 mx-auto"
+          >
+            <span>Start Your Journey</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </ScrollReveal>
       </div>
     </section>
   );

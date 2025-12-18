@@ -10,7 +10,7 @@ export function FloatingActions() {
   const { bookOnline, quickEnquiry } = siteConfig.floatingActions;
 
   return (
-    <div className="fixed bottom-6 right-4 md:right-8 z-50 flex flex-col items-end gap-3 sm:gap-4 pointer-events-none">
+    <div className="fixed bottom-6 right-4 md:right-8 z-50 flex flex-col items-end gap-3 sm:gap-4 pointer-events-none animate-in fade-in slide-in-from-bottom-5 duration-1000 ease-out fill-mode-forwards">
       {/* Book Online Button */}
       <a
         href={`https://wa.me/${bookOnline.whatsapp}`}

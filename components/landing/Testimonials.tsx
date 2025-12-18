@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import Image from "next/image";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const TESTIMONIALS = [
   {
@@ -43,9 +44,16 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-8 md:py-20 bg-zinc-50 border-t border-b border-gray-100">
+    <section className="py-20 md:py-32 bg-zinc-50 border-t border-b border-gray-100 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto relative group">
+        <ScrollReveal animation="reveal" delay={100} className="text-center mb-16 md:mb-20">
+          <h2 className="text-3xl md:text-5xl font-sans font-bold tracking-tight text-gray-900 mb-4">
+            Guest Journeys
+          </h2>
+          <div className="w-12 h-0.5 bg-primary/30 mx-auto" />
+        </ScrollReveal>
+
+        <ScrollReveal animation="reveal-fade" delay={300} className="max-w-3xl mx-auto relative group">
           {/* Grid Layout for stacking without absolute positioning issues */}
           <div className="grid grid-cols-1">
             {TESTIMONIALS.map((item, idx) => (
@@ -104,7 +112,7 @@ export function Testimonials() {
             <ChevronRight className="w-5 h-5 text-gray-700" />
           </button>
 
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
