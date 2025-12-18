@@ -167,7 +167,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
   <div className="mx-auto max-w-7xl">
     <div className="relative flex items-center justify-between h-full px-4 lg:px-6 pt-6 pb-3 lg:pt-4 lg:pb-0">
           {/* Mobile Title */}
-          <div className="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-1.5 font-bold text-lg text-gray-900 pointer-events-none">
+          <div className="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-1.5 font-bold text-xl text-gray-900 pointer-events-none">
            World Safari Tours
           </div>
           {/* Left: Mobile menu + Logo */}
@@ -193,12 +193,12 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                            className="object-contain"
                          />
                        </div>
-                       <span className="font-bold text-lg">World Safari</span>
+                       <span className="font-bold text-xl">World Safari</span>
                     </SheetTitle>
                   </SheetHeader>
                   
                   <div className="flex-1 overflow-y-auto py-6 px-6">
-                    <div className="flex flex-col gap-6 text-base font-medium text-gray-900">
+                    <div className="flex flex-col gap-6 text-lg font-bold text-gray-900">
                        <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center justify-between">
                          Home
                        </Link>
@@ -237,7 +237,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
-              <div className="relative w-10 h-10">
+              <div className="relative w-20 h-20">
                 <Image
                   src="/WST-logo.png"
                   alt="World Safari logo"
@@ -246,9 +246,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                   priority
                 />
               </div>
-              <span className="text-xl font-bold tracking-tight text-gray-900 hidden md:block">
+              <span className="text-2xl font-bold tracking-tight text-gray-900 hidden md:block">
              World Safari Tours
-
               </span>
             </Link>
           </div>
@@ -260,7 +259,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* Packages Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-5 h-10 text-base font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
+                  <NavigationMenuTrigger className="rounded-full px-6 h-10 text-lg font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
                     Packages
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -317,7 +316,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* Experiences */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-5 h-10 text-base font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
+                  <NavigationMenuTrigger className="rounded-full px-6 h-10 text-lg font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
                     Experiences
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -337,7 +336,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 {/* About & Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-5 py-2 text-base font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                  <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                     About Us
                   </Link>
                 </NavigationMenuLink>
@@ -345,7 +344,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-5 py-2 text-base font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                  <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                     Contact
                   </Link>
                 </NavigationMenuLink>
@@ -359,7 +358,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <Button
               asChild
-              className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all h-10 px-6 font-medium"
+              className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all h-10 px-6 font-bold text-base"
             >
               {/* Route to existing contact/enquiry flow */}
               <Link href="/contact">Enquire Now</Link>

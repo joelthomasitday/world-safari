@@ -62,9 +62,9 @@ export function Footer() {
                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
                  W
                </div>
-               <span className="text-xl font-bold tracking-wide">World Safari</span>
+               <span className="text-2xl font-bold tracking-wide">World Safari</span>
             </Link>
-            <p className="text-gray-500 text-sm leading-relaxed">
+            <p className="text-gray-700 font-semibold text-base leading-relaxed">
               Crafting unforgettable luxury safaris and travel experiences since 2008.
             </p>
             <div className="mt-4">
@@ -80,13 +80,13 @@ export function Footer() {
 
           {/* Links - Column 1 */}
           <div>
-            <h4 className="font-sans font-bold text-sm uppercase tracking-widest mb-4">Company</h4>
+            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Company</h4>
             <ul className="space-y-2">
               {["About Us", "Careers", "Press", "Blog"].map((item) => (
                 <li key={item}>
                   <Link
                     href={item === "About Us" ? "/about" : "#"}
-                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                    className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
                   >
                     {item}
                   </Link>
@@ -97,32 +97,32 @@ export function Footer() {
 
           {/* Links - Column 2 */}
           <div>
-            <h4 className="font-sans font-bold text-sm uppercase tracking-widest mb-4">Support</h4>
+            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Support</h4>
             <ul className="space-y-2">
               {["Contact Us", "Terms & Conditions", "Privacy Policy", "Sitemap"].map((item) => (
                 <li key={item}>
                   <Link
                     href={item === "Contact Us" ? "/contact" : "#"}
-                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                    className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
                   >
                     {item}
                   </Link>
                 </li>
               ))}
               <li>
-                 <Link
-                   href="/admin/login"
-                   className="text-gray-500 hover:text-primary transition-colors text-sm"
-                 >
-                   Staff Login
-                 </Link>
+                  <Link
+                    href="/admin/login"
+                    className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
+                  >
+                    Staff Login
+                  </Link>
               </li>
             </ul>
           </div>
 
           {/* Social / Newsletter */}
           <div>
-            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4 text-primary">Follow Us</h4>
+            <h4 className="font-sans font-bold text-lg uppercase tracking-widest mb-4 text-primary">Follow Us</h4>
             <div className="flex gap-4 flex-wrap">
               {SOCIAL_LINKS.map(({ Icon, href, label, name, brandBg, hoverText, brandBorder }) => (
                 <a
@@ -136,7 +136,7 @@ export function Footer() {
                   <div className={`w-12 h-12 rounded-full border ${brandBorder} ${brandBg} flex items-center justify-center text-white group-hover:bg-transparent ${hoverText} group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className={`text-[10px] uppercase font-bold tracking-wider text-gray-500 ${hoverText} transition-colors`}>{name}</span>
+                   <span className={`text-xs uppercase font-bold tracking-wider text-gray-800 ${hoverText} transition-colors`}>{name}</span>
                 </a>
               ))}
             </div>
@@ -144,7 +144,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400">
+        <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row items-center justify-between text-sm text-gray-600 font-bold">
           <p>&copy; {new Date().getFullYear()} World Safari Tours. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
              <span>Design by World Safari Team</span>
