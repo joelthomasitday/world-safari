@@ -276,7 +276,12 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
 
                 {/* Packages Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn("rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
+                  <NavigationMenuTrigger className={cn(
+                    "rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", 
+                    isTransparent 
+                      ? "text-white hover:text-white/90 hover:bg-white/10" 
+                      : "text-foreground hover:text-primary hover:bg-primary/5"
+                  )}>
                     Packages
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -336,7 +341,12 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
 
                 {/* Experiences */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn("rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
+                  <NavigationMenuTrigger className={cn(
+                    "rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", 
+                    isTransparent 
+                      ? "text-white hover:text-white/90 hover:bg-white/10" 
+                      : "text-foreground hover:text-primary hover:bg-primary/5"
+                  )}>
                     Experiences
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -356,7 +366,12 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                 {/* About & Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/about" className={cn("group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
+                  <Link href="/about" className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", 
+                    isTransparent 
+                      ? "text-white hover:text-white/90 hover:bg-white/10" 
+                      : "text-foreground hover:text-primary hover:bg-primary/5"
+                  )}>
                     About Us
                   </Link>
                 </NavigationMenuLink>
@@ -364,7 +379,12 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/contact" className={cn("group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
+                  <Link href="/contact" className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", 
+                    isTransparent 
+                      ? "text-white hover:text-white/90 hover:bg-white/10" 
+                      : "text-foreground hover:text-primary hover:bg-primary/5"
+                  )}>
                     Contact
                   </Link>
                 </NavigationMenuLink>
