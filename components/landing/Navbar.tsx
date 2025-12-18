@@ -263,7 +263,7 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                   priority
                 />
               </div>
-              <span className={cn("text-lg sm:text-xl lg:text-2xl font-bold tracking-tight transition-colors duration-300", isTransparent ? "text-white" : "text-foreground")}>
+              <span className={cn("text-[16px] xs:text-lg sm:text-xl lg:text-2xl font-bold tracking-tight transition-colors duration-300 whitespace-nowrap", isTransparent ? "text-white" : "text-foreground")}>
                 World Safari Tours
               </span>
             </Link>

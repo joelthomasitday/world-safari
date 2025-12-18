@@ -5,8 +5,9 @@ import React, { useEffect, useRef, useState } from "react";
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
-  animation?: "reveal" | "reveal-fade" | "reveal-scale" | "reveal-stagger-container";
+  animation?: "reveal" | "reveal-fade" | "reveal-scale" | "reveal-stagger-container" | "slide-up" | "slide-down" | "slide-left" | "slide-right";
   delay?: number;
+  duration?: number;
   once?: boolean;
   threshold?: number;
 }
@@ -16,6 +17,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   className = "",
   animation = "reveal",
   delay = 0,
+  duration,
   once = true,
   threshold = 0.1,
 }) => {
@@ -57,6 +59,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       className={`${animation} ${isVisible ? "visible" : ""} ${className}`}
       style={{
         transitionDelay: delay ? `${delay}ms` : undefined,
+        transitionDuration: duration ? `${duration}ms` : undefined,
       }}
     >
       {children}

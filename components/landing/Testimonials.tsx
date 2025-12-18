@@ -28,7 +28,7 @@ export function Testimonials() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 6000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, []);
@@ -44,75 +44,114 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-20 md:py-32 bg-zinc-50 border-t border-b border-gray-100 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <ScrollReveal animation="reveal" delay={100} className="text-center mb-16 md:mb-20">
-          <h2 className="text-3xl md:text-5xl font-sans font-bold tracking-tight text-gray-900 mb-4">
-            Guest Journeys
+    <section className="py-24 md:py-40 bg-white overflow-hidden">
+      <div className="container mx-auto px-6">
+        <ScrollReveal animation="slide-down" delay={100} className="text-center mb-20 md:mb-32">
+          <span className="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">Testimonials</span>
+          <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-gray-900 mb-6">
+            Stories from <span className="text-primary italic">Our</span> Guests
           </h2>
-          <div className="w-12 h-0.5 bg-primary/30 mx-auto" />
+          <div className="flex items-center justify-center gap-2 text-gray-400 font-medium">
+             <div className="flex -space-x-2">
+                {[1,2,3,4].map(i => (
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-200 overflow-hidden relative">
+                    <Image src={`https://i.pravatar.cc/100?u=${i}`} alt="User" fill className="object-cover" />
+                  </div>
+                ))}
+             </div>
+             <span className="ml-2 text-sm">Trusted by 1,200+ Discerning Travelers</span>
+          </div>
         </ScrollReveal>
 
-        <ScrollReveal animation="reveal-fade" delay={300} className="max-w-3xl mx-auto relative group">
-          {/* Grid Layout for stacking without absolute positioning issues */}
-          <div className="grid grid-cols-1">
-            {TESTIMONIALS.map((item, idx) => (
-              <div
-                key={idx}
-                className={`col-start-1 row-start-1 flex flex-col items-center text-center transition-all duration-500 ease-out px-2 ${
-                  idx === currentIndex
-                    ? "opacity-100 translate-y-0 scale-100 z-10"
-                    : "opacity-0 translate-y-4 scale-95 -z-10 pointer-events-none"
-                }`}
-              >
-                <Quote className="w-8 h-8 md:w-12 md:h-12 text-primary/20 mb-4 md:mb-8" />
-                <p className="text-lg md:text-2xl italic text-gray-800 leading-relaxed mb-6 md:mb-8 text-balance">
-                  "{item.text}"
-                </p>
-                <div>
-                  <h4 className="font-sans font-bold text-gray-900 uppercase tracking-widest text-xs md:text-sm">
-                    {item.author}
-                  </h4>
-                  <p className="text-gray-500 text-xs md:text-sm mt-1">{item.location}</p>
+        <div className="max-w-4xl mx-auto relative group">
+          {/* Main Content Area */}
+          <div className="relative min-h-[450px] sm:min-h-[400px] md:min-h-[350px] glass-panel rounded-4xl sm:rounded-[3rem] p-8 sm:p-12 md:p-20 shadow-2xl border-gray-100 flex items-center justify-center overflow-hidden">
+            <Quote className="absolute top-6 left-6 sm:top-10 sm:left-10 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 text-primary/5 z-0" />
+            
+            <div className="relative z-10 w-full">
+              {TESTIMONIALS.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`absolute inset-0 flex flex-col items-center justify-center text-center transition-all duration-700 cubic-bezier(0.22, 1, 0.36, 1) ${
+                    idx === currentIndex
+                      ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+                      : "opacity-0 translate-y-8 scale-95 pointer-events-none"
+                  }`}
+                >
+                  <p className="text-lg sm:text-xl md:text-3xl font-serif font-medium text-gray-800 leading-[1.6] mb-8 sm:mb-10 text-balance px-4">
+                    "{item.text}"
+                  </p>
+                  <div className="flex flex-col items-center">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
+                      <span className="text-primary font-bold">{item.author[0]}</span>
+                    </div>
+                    <h4 className="font-bold text-gray-900 uppercase tracking-widest text-xs sm:text-sm mb-1">
+                      {item.author}
+                    </h4>
+                    <p className="text-primary font-medium text-[10px] sm:text-xs tracking-wider">{item.location}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Navigation arrows */}
-          <button
-            type="button"
-            aria-label="Previous testimonial"
-            className="md:hidden flex items-center justify-center absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
-             onClick={handlePrev}
-          >
-             {/* Mobile simple arrow if needed, but usually hidden. Keeping distinct from desktop style if we want to show it. 
-                 The original code hid them on mobile. I will check if I should enable them. 
-                 User request was 'responsiveness', maybe controls help? 
-                 Actually, let's keep the desktop ones and maybe add small tap areas or just leave swipe/auto.
-                 The original code had `hidden md:flex` for buttons. 
-                 I'll keep them consistent but accessible. 
-             */}
-          </button>
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-center gap-4 mt-8 md:mt-0">
+            {/* Desktop Left Arrow */}
+            <div className="hidden md:block absolute top-1/2 -translate-y-1/2 -left-8 lg:-left-20">
+              <button
+                onClick={handlePrev}
+                className="w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center text-gray-900 border border-gray-100 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-300 group/btn"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="w-6 h-6 transition-transform group-hover/btn:-translate-x-0.5" />
+              </button>
+            </div>
 
-          <button
-            type="button"
-            aria-label="Previous testimonial"
-            className="hidden md:flex items-center justify-center absolute -left-12 lg:-left-16 top-1/2 -translate-y-1/2 rounded-full border border-gray-200 bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-colors w-10 h-10 z-20"
-            onClick={handlePrev}
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next testimonial"
-            className="hidden md:flex items-center justify-center absolute -right-12 lg:-right-16 top-1/2 -translate-y-1/2 rounded-full border border-gray-200 bg-white/80 backdrop-blur shadow-sm hover:bg-white transition-colors w-10 h-10 z-20"
-            onClick={handleNext}
-          >
-            <ChevronRight className="w-5 h-5 text-gray-700" />
-          </button>
+            {/* Mobile/Tablet Prev Button */}
+            <button
+              onClick={handlePrev}
+              className="md:hidden w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-900 border border-gray-100 active:bg-primary active:text-white transition-all"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
 
-        </ScrollReveal>
+            {/* Mobile/Tablet Next Button */}
+            <button
+              onClick={handleNext}
+              className="md:hidden w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-900 border border-gray-100 active:bg-primary active:text-white transition-all"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+
+            {/* Desktop Right Arrow */}
+            <div className="hidden md:block absolute top-1/2 -translate-y-1/2 -right-8 lg:-right-20">
+              <button
+                onClick={handleNext}
+                className="w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center text-gray-900 border border-gray-100 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-300 group/btn"
+                aria-label="Next"
+              >
+                <ChevronRight className="w-6 h-6 transition-transform group-hover/btn:translate-x-0.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Indicator Dots */}
+          <div className="flex justify-center gap-3 mt-12">
+            {TESTIMONIALS.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  idx === currentIndex ? "w-12 bg-primary" : "w-2 bg-gray-200 hover:bg-gray-300"
+                }`}
+                aria-label={`Go to testimonial ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
