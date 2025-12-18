@@ -10,30 +10,45 @@ const SOCIAL_LINKS = [
     href: "https://www.facebook.com/worldsafaritoursandtravels/",
     label: "World Safari Tours and Travels on Facebook",
     name: "Facebook",
+    brandBg: "bg-[#1877F2]",
+    brandBorder: "border-[#1877F2]",
+    hoverText: "group-hover:text-[#1877F2]",
   },
   {
     Icon: Phone,
     href: "https://wa.me/919947247200",
     label: "Chat on WhatsApp",
     name: "WhatsApp",
+    brandBg: "bg-[#25D366]",
+    brandBorder: "border-[#25D366]",
+    hoverText: "group-hover:text-[#25D366]",
   },
   {
     Icon: Instagram,
     href: "https://www.instagram.com/worldsafaritours",
     label: "World Safari Tours on Instagram",
     name: "Instagram",
+    brandBg: "bg-[#E4405F]",
+    brandBorder: "border-[#E4405F]",
+    hoverText: "group-hover:text-[#E4405F]",
   },
   {
     Icon: Linkedin,
     href: "https://www.linkedin.com/in/shajiworldsafaritours/",
     label: "World Safari Tours on LinkedIn",
     name: "LinkedIn",
+    brandBg: "bg-[#0077B5]",
+    brandBorder: "border-[#0077B5]",
+    hoverText: "group-hover:text-[#0077B5]",
   },
   {
     Icon: Mail,
     href: "mailto:mail@worldsafari.in",
     label: "Email Us",
     name: "Email",
+    brandBg: "bg-[#EA4335]",
+    brandBorder: "border-[#EA4335]",
+    hoverText: "group-hover:text-[#EA4335]",
   },
 ];
 
@@ -109,7 +124,7 @@ export function Footer() {
           <div>
             <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4 text-primary">Follow Us</h4>
             <div className="flex gap-4 flex-wrap">
-              {SOCIAL_LINKS.map(({ Icon, href, label, name }) => (
+              {SOCIAL_LINKS.map(({ Icon, href, label, name, brandBg, hoverText, brandBorder }) => (
                 <a
                   key={href}
                   href={href}
@@ -118,10 +133,10 @@ export function Footer() {
                   aria-label={label}
                   className="flex flex-col items-center gap-2 group"
                 >
-                  <div className="w-12 h-12 rounded-full border border-gray-200 bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-primary group-hover:text-white group-hover:border-primary group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                  <div className={`w-12 h-12 rounded-full border ${brandBorder} ${brandBg} flex items-center justify-center text-white group-hover:bg-transparent ${hoverText} group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 group-hover:text-primary transition-colors">{name}</span>
+                  <span className={`text-[10px] uppercase font-bold tracking-wider text-gray-500 ${hoverText} transition-colors`}>{name}</span>
                 </a>
               ))}
             </div>
