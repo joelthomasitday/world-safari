@@ -71,19 +71,33 @@ const KNOWN_DESTINATIONS = [
   "Kenya", "Tanzania", "South Africa", "Morocco", "Mauritius", "Seychelles" // Africa
 ];
 
-export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }) {
+export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" }) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   const [packages, setPackages] = React.useState<Package[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const pathname = usePathname();
 
+  // Auto-detect variant if not explicitly provided
+  const variant = propVariant || (
+    pathname === "/" || 
+    pathname === "/contact" || 
+    pathname === "/about" || 
+    pathname.startsWith("/packages") 
+    ? "hero" : "default"
+  );
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // --- Data Fetching ---
 
   React.useEffect(() => {
-
-
-
     const fetchPackages = async () => {
       try {
         const res = await fetch('/api/packages');
@@ -149,41 +163,44 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
   }, [packages]);
 
   // --- Styling ---
+  const isTransparent = variant === "hero" && !scrolled;
+
   const navClasses = cn(
-    "relative z-20 w-full",
-    variant === "hero"
-      ? "bg-transparent mb-4 "
-      : [
-          // Mobile / tablet: normal full-width bar at top
-          "fixed top-0 left-0 right-0 z-50 w-full bg-white shadow-sm",
-          // Desktop: centered floating pill
-          "lg:top-6 lg:left-1/2 lg:right-auto lg:-translate-x-1/2 lg:w-[95%] lg:max-w-6xl lg:rounded-full lg:shadow-xl"
-        ]
+    "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out",
+    isTransparent
+      ? "bg-white/5 backdrop-blur-[3px] border-b border-white/5"
+      : "bg-background/95 backdrop-blur-md border-b border-border shadow-md",
+    // Desktop: centered floating pill when not scrolled and in default variant
+    variant !== "hero" && !scrolled && "lg:top-4 lg:left-1/2 lg:-translate-x-1/2 lg:w-[95%] lg:max-w-7xl lg:rounded-full lg:shadow-lg lg:border lg:bg-background/95",
+    scrolled && "bg-background/95 backdrop-blur-lg shadow-lg py-1 border-b border-border"
   );
+
+  const linkColor = isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary";
+  const iconColor = isTransparent ? "text-white" : "text-foreground";
 
   return (
     <>
+     {/* Subtle Overlay for Hero visibility */}
+     {isTransparent && <div className="fixed top-0 left-0 right-0 h-32 bg-linear-to-b from-black/50 via-black/20 to-transparent z-40 pointer-events-none transition-opacity duration-500" />}
+
      <header className={navClasses}>
   <div className="mx-auto max-w-7xl">
-    <div className="relative flex items-center justify-between h-full px-4 lg:px-6 pt-6 pb-3 lg:pt-4 lg:pb-0">
-          {/* Mobile Title */}
-          <div className="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-1.5 font-bold text-xl text-gray-900 pointer-events-none">
-           World Safari Tours
-          </div>
+    <div className="relative flex items-center justify-between h-full px-4 lg:px-6 py-2 lg:pt-4 lg:pb-0">
           {/* Left: Mobile menu + Logo */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Mobile burger (left on mobile, hidden on desktop) */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <button
-                  className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+                  className={cn("lg:hidden p-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/20", isTransparent ? "text-white hover:bg-white/10" : "text-foreground/80 hover:bg-accent")}
+                  aria-label="Open menu"
                 >
                   <Menu className="w-6 h-6" />
                 </button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[85vw] sm:w-[380px] p-0">
-                <div className="flex flex-col h-full bg-white">
-                  <SheetHeader className="p-6 text-left border-b border-gray-100">
+              <SheetContent side="left" className="w-[85vw] sm:w-[380px] p-0 border-r border-border">
+                <div className="flex flex-col h-full bg-background">
+                  <SheetHeader className="p-6 text-left border-b border-border">
                     <SheetTitle className="flex items-center gap-2">
                        <div className="relative w-8 h-8">
                          <Image
@@ -193,32 +210,32 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                            className="object-contain"
                          />
                        </div>
-                       <span className="font-bold text-xl">World Safari</span>
+                       <span className="font-bold text-xl text-foreground">World Safari</span>
                     </SheetTitle>
                   </SheetHeader>
                   
                   <div className="flex-1 overflow-y-auto py-6 px-6">
-                    <div className="flex flex-col gap-6 text-lg font-bold text-gray-900">
-                       <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center justify-between">
+                    <div className="flex flex-col gap-6 text-lg font-bold text-foreground">
+                       <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center justify-between hover:text-primary transition-colors">
                          Home
                        </Link>
-                       <Link href="/packages" onClick={() => setIsOpen(false)} className="flex items-center justify-between">
-                         All Packages <ChevronRight className="w-4 h-4 text-gray-400" />
+                       <Link href="/packages" onClick={() => setIsOpen(false)} className="flex items-center justify-between hover:text-primary transition-colors">
+                         All Packages <ChevronRight className="w-4 h-4 text-muted-foreground" />
                        </Link>
-                       <Link href="/about" onClick={() => setIsOpen(false)}>About Us</Link>
-                       <Link href="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
+                       <Link href="/about" onClick={() => setIsOpen(false)} className="hover:text-primary transition-colors">About Us</Link>
+                       <Link href="/contact" onClick={() => setIsOpen(false)} className="hover:text-primary transition-colors">Contact</Link>
                     </div>
 
-                    <div className="mt-8 pt-8 border-t border-gray-100">
-                       <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Support</h4>
+                    <div className="mt-8 pt-8 border-t border-border">
+                       <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Support</h4>
                        <div className="grid gap-3">
-                         <Button variant="outline" className="w-full justify-start gap-2 h-11" asChild>
+                         <Button variant="outline" className="w-full justify-start gap-2 h-11 border-border hover:bg-accent" asChild>
                            <Link href="/contact">
                              <Phone className="w-4 h-4" /> Call Us
                            </Link>
                          </Button>
-                         <Button className="w-full justify-start gap-2 h-11 bg-[#25D366] hover:bg-[#128C7E] text-white hover:text-white" asChild>
-                           <Link href="https://wa.me/123456789">
+                         <Button className="w-full justify-start gap-2 h-11 bg-[#25D366] hover:bg-[#128C7E] text-white" asChild>
+                           <Link href="https://wa.me/919947247200">
                              <MessageCircle className="w-4 h-4" /> WhatsApp
                            </Link>
                          </Button>
@@ -226,8 +243,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                     </div>
                   </div>
                   
-                  <div className="p-6 bg-gray-50 border-t border-gray-100">
-                     <Button asChild className="w-full h-11 rounded-xl shadow-lg shadow-primary/20">
+                  <div className="p-6 bg-muted/30 border-t border-border">
+                     <Button asChild className="w-full h-11 rounded-xl shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90">
                        <Link href="/contact" onClick={() => setIsOpen(false)}>Plan Your Trip</Link>
                      </Button>
                   </div>
@@ -236,8 +253,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
             </Sheet>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group shrink-0">
-              <div className="relative w-20 h-20">
+            <Link href="/" className="flex items-center gap-2 group shrink-0 relative z-10 transition-transform active:scale-95">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 transition-all duration-300">
                 <Image
                   src="/WST-logo.png"
                   alt="World Safari logo"
@@ -246,8 +263,8 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                   priority
                 />
               </div>
-              <span className="text-2xl font-bold tracking-tight text-gray-900 hidden md:block">
-             World Safari Tours
+              <span className={cn("text-lg sm:text-xl lg:text-2xl font-bold tracking-tight transition-colors duration-300", isTransparent ? "text-white" : "text-foreground")}>
+                World Safari Tours
               </span>
             </Link>
           </div>
@@ -259,29 +276,32 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* Packages Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-6 h-10 text-lg font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
+                  <NavigationMenuTrigger className={cn("rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
                     Packages
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="w-[800px] p-0 flex outline-none h-full">
+                    <div className="w-[800px] flex outline-none min-h-[300px]">
                        {/* Featured Sidebar */}
-                       <div className="w-1/4 bg-gray-50 p-6 flex flex-col justify-between border-r border-gray-100">
+                       <div className="w-1/3 bg-muted/30 p-8 flex flex-col justify-between border-r border-border/50">
                           <div>
-                            <h4 className="font-bold text-lg text-gray-900 mb-2">Featured</h4>
-                            <p className="text-xs text-gray-500 mb-4">Handpicked tours for the ultimate experience.</p>
+                            <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-4">
+                              Featured
+                            </div>
+                            <h4 className="font-bold text-xl text-foreground mb-3 leading-tight">Handpicked for You</h4>
+                            <p className="text-sm text-muted-foreground leading-relaxed">Discover our most exclusive and highly-rated travel experiences curated just for your dreams.</p>
                           </div>
-                          <Link href="/packages" className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
-                            View All <ArrowRight className="w-4 h-4" />
+                          <Link href="/packages" className="text-primary text-sm font-bold flex items-center gap-2 group/all hover:gap-3 transition-all duration-300 mt-8">
+                            View All Packages <ArrowRight className="w-4 h-4" />
                           </Link>
                        </div>
                        
                        {/* Grid */}
-                       <div className="w-3/4 p-6 grid grid-cols-2 gap-4">
+                       <div className="w-2/3 p-8 grid grid-cols-2 gap-x-8 gap-y-6">
                           {isLoading ? (
                             Array(4).fill(0).map((_, i) => (
-                              <div key={i} className="flex gap-3">
-                                <Skeleton className="w-16 h-16 rounded-lg shrink-0" />
-                                <div className="space-y-1 w-full">
+                              <div key={i} className="flex gap-4">
+                                <Skeleton className="w-20 h-20 rounded-xl shrink-0" />
+                                <div className="space-y-2 w-full pt-1">
                                   <Skeleton className="h-4 w-3/4" />
                                   <Skeleton className="h-3 w-1/2" />
                                 </div>
@@ -289,25 +309,25 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                             ))
                           ) : popularPackages.length > 0 ? (
                             popularPackages.map((pkg) => (
-                               <Link key={pkg._id} href={`/packages/${pkg.slug || pkg._id}`} className="flex gap-4 group/card p-2 rounded-xl hover:bg-gray-50 transition-colors">
-                                 <div className="w-20 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-200">
+                               <Link key={pkg._id} href={`/packages/${pkg.slug || pkg._id}`} className="flex gap-4 group/card items-start">
+                                 <div className="w-24 h-20 rounded-xl overflow-hidden shrink-0 bg-muted shadow-sm border border-border/50">
                                    {pkg.images?.[0] && (
-                                     <img src={pkg.images[0]} alt={pkg.title} className="w-full h-full object-cover transition-transform group-hover/card:scale-105" />
+                                     <img src={pkg.images[0]} alt={pkg.title} className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110" />
                                    )}
                                  </div>
-                                 <div className="flex-1 min-w-0">
-                                   <h5 className="font-bold text-gray-900 text-sm truncate group-hover/card:text-primary transition-colors">{pkg.title}</h5>
-                                   <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                                      {pkg.duration && <span>{pkg.duration}</span>}
-                                      <span>•</span>
-                                      <span>{getRegion(pkg.title, pkg.overview)}</span>
+                                 <div className="flex-1 min-w-0 pt-1">
+                                   <h5 className="font-bold text-foreground text-sm leading-snug group-hover/card:text-primary transition-colors line-clamp-2">{pkg.title}</h5>
+                                   <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-2 font-medium">
+                                      <span className="flex items-center gap-1 uppercase tracking-tight">{pkg.duration}</span>
+                                      <span className="w-1 h-1 rounded-full bg-muted-foreground/30"></span>
+                                      <span className="uppercase tracking-tight">{getRegion(pkg.title, pkg.overview)}</span>
                                    </div>
-                                   {pkg.price && <div className="text-xs font-semibold text-primary mt-1">{pkg.price.includes('$') ? pkg.price.replace('$', '₹') : (pkg.price.match(/^\d/) && !pkg.price.includes('₹') ? `₹${pkg.price}` : pkg.price)}</div>}
+                                   {pkg.price && <div className="text-sm font-bold text-primary mt-1.5">{pkg.price.includes('$') ? pkg.price.replace('$', '₹') : (pkg.price.match(/^\d/) && !pkg.price.includes('₹') ? `₹${pkg.price}` : pkg.price)}</div>}
                                  </div>
                                </Link>
                             ))
                           ) : (
-                            <div className="col-span-2 text-sm text-gray-500 flex items-center justify-center p-4">No packages found</div>
+                            <div className="col-span-2 text-sm text-muted-foreground flex items-center justify-center p-4">No packages found</div>
                           )}
                        </div>
                     </div>
@@ -316,16 +336,16 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
 
                 {/* Experiences */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="rounded-full px-6 h-10 text-lg font-bold text-gray-900 hover:text-primary hover:bg-primary/10 bg-transparent transition-all duration-200 focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
+                  <NavigationMenuTrigger className={cn("rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
                     Experiences
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <ul className="w-[300px] p-3 outline-none">
+                     <ul className="w-[280px] p-4 outline-none">
                        {["Honeymoon", "Adventure", "Family", "Luxury", "Wildlife"].map((exp) => (
                          <li key={exp}>
-                           <Link href={`/packages?experience=${exp.toLowerCase()}`} className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 rounded-lg text-sm text-gray-700 hover:text-primary font-medium transition-colors">
+                           <Link href={`/packages?experience=${exp.toLowerCase()}`} className="flex items-center justify-between px-4 py-3 hover:bg-accent rounded-xl text-sm text-foreground hover:text-primary font-bold transition-all duration-200 group/item mb-1 last:mb-0">
                              {exp}
-                             <ChevronRight className="w-3 h-3 text-gray-300" />
+                             <ChevronRight className="w-4 h-4 text-muted-foreground transition-transform group-hover/item:translate-x-1" />
                            </Link>
                          </li>
                        ))}
@@ -336,7 +356,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 {/* About & Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                  <Link href="/about" className={cn("group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
                     About Us
                   </Link>
                 </NavigationMenuLink>
@@ -344,7 +364,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
                 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                  <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold text-gray-900 transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                  <Link href="/contact" className={cn("group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
                     Contact
                   </Link>
                 </NavigationMenuLink>
@@ -358,7 +378,7 @@ export function Navbar({ variant = "default" }: { variant?: "default" | "hero" }
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <Button
               asChild
-              className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all h-10 px-6 font-bold text-base"
+              className={cn("rounded-full shadow-md hover:shadow-lg transition-all h-10 px-6 font-bold text-base", isTransparent ? "bg-white text-primary hover:bg-white/90" : "bg-primary hover:bg-primary/90 text-primary-foreground")}
             >
               {/* Route to existing contact/enquiry flow */}
               <Link href="/contact">Enquire Now</Link>

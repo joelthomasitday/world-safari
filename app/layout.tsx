@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
 };
 
-import { FloatingActions } from "@/components/landing/FloatingActions";
+import { ClientLayout } from "@/components/ClientLayout";
 
 export default function RootLayout({
   children,
@@ -67,11 +67,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased font-sans`}
+        className={`${inter.variable} ${playfair.variable} antialiased font-sans flex flex-col min-h-screen`}
       >
-        {children}
-        <Toaster />
-        <FloatingActions />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { PackagesHero } from "@/components/packages/PackagesHero";
 import { PackagesFilter } from "@/components/packages/PackagesFilter";
@@ -87,9 +86,6 @@ export default function PackagesPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Navbar with same behavior as landing page */}
-      <Navbar variant="hero" />
-
       {/* Hero Section */}
       <PackagesHero 
         title="Explore Our Travel Packages"

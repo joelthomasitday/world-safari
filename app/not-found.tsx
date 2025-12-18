@@ -1,13 +1,10 @@
-import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-white">
-      <Navbar variant="hero" />
-      
-      <section className="relative pt-32 pb-32 min-h-[70vh] flex items-center">
+    <main className="min-h-screen bg-white text-foreground">
+      <section className="relative py-20 min-h-[70vh] flex items-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             {/* 404 Badge */}

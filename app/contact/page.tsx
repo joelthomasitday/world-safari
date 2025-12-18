@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { ContactHero } from "@/components/contact/ContactHero";
 import { ContactInfo } from "@/components/contact/ContactInfo";
@@ -18,7 +17,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-white">
-      <Navbar variant="hero" />
       <ContactHero />
       <ContactInfo />
       <ContactForm />

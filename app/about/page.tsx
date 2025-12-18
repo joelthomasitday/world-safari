@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 
 export const metadata: Metadata = {
@@ -14,10 +13,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-white">
-      <Navbar variant="hero" />
-      
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-to-b from-[#f8f6f3] to-white">
+      <section className="relative pt-12 pb-20 bg-gradient-to-b from-[#f8f6f3] to-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-playfair text-4xl sm:text-5xl font-semibold text-[#1a1a1a] mb-6">

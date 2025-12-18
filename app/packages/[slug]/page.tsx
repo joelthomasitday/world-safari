@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { CTA } from "@/components/landing/CTA";
 import { PackageHero } from "@/components/package-details/PackageHero";
@@ -145,8 +144,6 @@ export default async function PackageDetailsPage({
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar variant="hero" />
-      
       <PackageHero 
         title={pkg.title}
         destination={pkg.bestTime || ""} 
