@@ -71,7 +71,7 @@ export function ContactForm() {
   };
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section id="contact-form" className="py-24 bg-white relative overflow-hidden">
       {/* Decorative background element */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gray-50/50 rounded-full blur-3xl -z-10" />
 

@@ -57,6 +57,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { FloatingActions } from "@/components/landing/FloatingActions";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,6 +71,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <FloatingActions />
       </body>
     </html>
   );
