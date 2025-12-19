@@ -76,7 +76,6 @@ export function EnquiryForm({ packageTitle }: { packageTitle: string }) {
           name: values.name,
           email: values.email,
           phone: values.phone,
-          destination: packageTitle,
           travelDates: {
             startDate: values.travelStartDate,
             endDate: values.travelEndDate,

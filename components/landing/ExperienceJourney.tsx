@@ -66,7 +66,7 @@ export function ExperienceJourney() {
                   </div>
                   
                   {/* Step Number Background */}
-                  <div className="absolute -top-12 -left-8 text-[120px] font-black text-black/3 select-none pointer-events-none group-hover:text-primary/5 transition-colors">
+                  <div className="absolute -top-12 left-20 md:left-36 text-[120px] font-black text-black/5 select-none pointer-events-none group-hover:text-primary/5 transition-colors">
                     {step.num}
                   </div>
                 </div>

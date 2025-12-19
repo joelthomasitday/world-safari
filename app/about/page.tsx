@@ -3,7 +3,7 @@ import { Footer } from "@/components/landing/Footer";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about World Safari Tours - our story, values, and commitment to crafting extraordinary travel experiences across the world's most captivating destinations.",
+  description: "Learn about World Safari Tours - our story, values, and commitment to crafting extraordinary travel experiences across the world's most captivating journeys.",
   openGraph: {
     title: "About World Safari Tours",
     description: "Discover our passion for creating unforgettable travel experiences. Learn about our story and the values that drive us.",
@@ -21,7 +21,7 @@ export default function AboutPage() {
               About World Safari Tours
             </h1>
             <p className="text-lg text-[#555] leading-relaxed">
-              Crafting extraordinary journeys across the world&apos;s most captivating destinations.
+              Crafting extraordinary journeys across the world&apos;s most captivating locations.
             </p>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function AboutPage() {
                     <span className="absolute -top-4 -left-2 text-6xl text-[#c9a227]/10 font-serif">"</span>
                     <p className="text-xl text-[#333] font-medium leading-relaxed pl-6 italic">
                       Traditional travel is about seeing. We believe extraordinary travel is about feeling. 
-                      Every destination we curate is a piece of my own journey shared with you.
+                      Every journey we curate is a piece of my own journey shared with you.
                     </p>
                   </div>
                   
@@ -111,7 +111,7 @@ export default function AboutPage() {
                     <p className="text-[#555] leading-relaxed">
                       Our founder, <span className="font-semibold text-[#1a1a1a]">Shaji</span>, established World Safari Tours 
                       with a single guiding principle: to treat every guest's journey as if it were his own. 
-                      His deep expertise across our signature destinations ensures that your adventure isn't 
+                      His deep expertise ensures that your adventure isn't 
                       just a trip, but a transformation.
                     </p>
                     <div>

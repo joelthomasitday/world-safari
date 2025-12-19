@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -12,6 +12,25 @@ import { Card, CardContent } from "@/components/ui/card";
 export function ContactForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+        }
+      } catch (error) {
+        console.error("Error fetching form settings:", error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
+  const formTitle = settings?.contactFormTitle || "Send Us a Message";
+  const formSubtitle = settings?.contactFormSubtitle || "Tell us about your dream trip, and we'll make it happen.";
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +42,6 @@ export function ContactForm() {
     const name = (formData.get("name") || "").toString().trim();
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
-    const destination = (formData.get("destination") || "").toString().trim();
     const dates = (formData.get("dates") || "").toString().trim();
     const message = (formData.get("message") || "").toString().trim();
 
@@ -42,9 +60,6 @@ export function ContactForm() {
         message: dates ? `Preferred Travel Dates: ${dates}\n\n${message}` : message,
       };
 
-      if (destination) {
-        body.destination = destination;
-      }
 
       const response = await fetch("/api/inquiries", {
         method: "POST",
@@ -64,16 +79,16 @@ export function ContactForm() {
       form.reset();
 
       // Construct WhatsApp message
+      const whatsappNumber = settings?.whatsappNumber || "919947247200";
       const whatsappMessage = `*New Contact Enquiry*\n` +
         `Name: ${name}\n` +
         `Email: ${email}\n` +
         `Phone: ${phone}\n` +
-        (destination ? `Destination: ${destination}\n` : "") +
         (dates ? `Dates: ${dates}\n` : "") +
         `Message: ${message}`;
 
       // Redirect to WhatsApp
-      window.location.href = `https://wa.me/919947247200?text=${encodeURIComponent(whatsappMessage)}`;
+      window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
       
     } catch (error) {
       console.error("Error submitting contact enquiry:", error);
@@ -86,16 +101,16 @@ export function ContactForm() {
   return (
     <section id="contact-form" className="py-24 bg-white relative overflow-hidden">
       {/* Decorative background element */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gray-50/50 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-0 left-1/2 -ml-[400px] w-[800px] h-[800px] bg-gray-50/50 rounded-full blur-3xl -z-10" />
 
       <div className="container mx-auto px-6 max-w-5xl">
         
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-3xl md:text-5xl font-medium text-gray-900 tracking-tight">
-            Send Us a Message
+            {formTitle}
           </h2>
           <p className="text-gray-500 font-light text-xl max-w-2xl mx-auto">
-             Tell us about your dream trip, and we'll make it happen.
+             {formSubtitle}
           </p>
         </div>
 
@@ -128,16 +143,7 @@ export function ContactForm() {
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="+1 (555) 000-0000" 
-                    className="bg-gray-50 border-gray-100 focus:bg-white focus:border-primary/20 transition-all h-14 rounded-xl text-lg font-light placeholder:text-gray-400" 
-                  />
-                </div>
-                <div className="space-y-3">
-                  <label htmlFor="destination" className="text-sm font-medium text-gray-900 tracking-wide uppercase">Destination</label>
-                  <Input 
-                    id="destination"
-                    name="destination"
-                    placeholder="e.g. Kenya, Tanzania" 
+                    placeholder="+91 (000) 000-0000" 
                     className="bg-gray-50 border-gray-100 focus:bg-white focus:border-primary/20 transition-all h-14 rounded-xl text-lg font-light placeholder:text-gray-400" 
                   />
                 </div>

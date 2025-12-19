@@ -6,7 +6,6 @@ import { ArrowRight, MapPin, Clock } from "lucide-react";
 
 interface PackageHeroProps {
   title: string;
-  destination: string;
   duration: string;
   price?: string;
   backgroundImage: string;
@@ -14,7 +13,6 @@ interface PackageHeroProps {
 
 export function PackageHero({
   title,
-  destination,
   duration,
   price,
   backgroundImage,
@@ -40,17 +38,12 @@ export function PackageHero({
           quality={90}
         />
         {/* Subtle Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/10 to-black/60 pointer-events-none" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center text-white text-center pt-20">
         
-        {/* Destination Tag */}
-        <div className="flex items-center gap-2 mb-6 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <MapPin className="w-4 h-4 text-white" />
-          <span className="text-sm font-medium tracking-wide uppercase">{destination}</span>
-        </div>
 
         {/* Main Title */}
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tight mb-6 drop-shadow-lg max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-100 fill-mode-backwards">

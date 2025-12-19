@@ -9,7 +9,6 @@ export interface Package {
   id: string;
   title: string;
   image: string;
-  destination: string;
   duration: string;
   description: string;
   price?: string;
@@ -41,8 +40,6 @@ export function PackageCard({ pkg }: PackageCardProps) {
         <div className="flex-1 p-6 flex flex-col">
           {/* Meta Info */}
           <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-primary uppercase mb-3">
-            <span>{pkg.destination}</span>
-            <span className="w-1 h-1 rounded-full bg-gray-300" />
             <span>{pkg.duration}</span>
           </div>
 

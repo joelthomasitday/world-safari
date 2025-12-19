@@ -3,6 +3,14 @@
 import { Shield, Star, Globe } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
+interface WhyWorldSafariProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    bodyText?: string;
+  };
+}
+
 const REASONS = [
   {
     icon: Shield,
@@ -17,23 +25,27 @@ const REASONS = [
   {
     icon: Globe,
     title: "Sustainable Travel",
-    description: "We are committed to conservation and community empowerment in every destination we visit.",
+    description: "We are committed to conservation and community empowerment in every place we visit.",
   },
 ];
 
-export function WhyWorldSafari() {
+export function WhyWorldSafari({ data }: WhyWorldSafariProps) {
+  // Use CMS data with fallbacks
+  const sectionTitle = data?.title || "Why World Safari Tours";
+  const sectionSubtitle = data?.subtitle || "We don't just plan trips; we curate life-enriching experiences.";
+
   return (
     <section className="py-20 md:py-32 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <ScrollReveal animation="reveal" delay={100}>
             <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-gray-900 mb-6">
-              Why World Safari Tours
+              {sectionTitle}
             </h2>
           </ScrollReveal>
           <ScrollReveal animation="reveal" delay={200}>
             <p className="text-gray-500 text-lg md:text-xl font-light">
-              We don't just plan trips; we curate life-enriching experiences.
+              {sectionSubtitle}
             </p>
           </ScrollReveal>
         </div>

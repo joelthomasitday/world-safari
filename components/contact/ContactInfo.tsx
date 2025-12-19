@@ -1,10 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 export function ContactInfo() {
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const data = await res.json();
+          setSettings(data);
+        }
+      } catch (error) {
+        console.error("Error fetching contact settings:", error);
+      }
+    };
+    fetchSettings();
+  }, []);
+
+  // Safe Fallbacks
+  const address = settings?.address || "WORLD SAFARI TOURS ( Travel division of Transzia Pvt Ltd )\nVI/858-M, Second Floor,\nValamkottil Towers, Judgemukku,\nThrikkakara, Ernakulam,\nKochi, Kerala, India";
+  const phone = settings?.phone || "9947247200";
+  const email = settings?.email || "goworldsafari@gmail.com\nmail@worldsafari.in";
+  const website = settings?.website || "https://www.worldsafari.in/";
+  const hoursWeekday = settings?.businessHoursWeekday || "9:00 AM - 6:00 PM";
+  const hoursWeekend = settings?.businessHoursWeekend || "10:00 AM - 2:00 PM";
+  const mapUrl = settings?.mapEmbedUrl || "https://maps.google.com/maps?q=Valamkottil+Towers,+Judgemukku,+Thrikkakara,+Kochi,+Kerala&t=&z=15&ie=UTF8&iwloc=&output=embed";
+
   return (
     <section className="py-24 bg-gray-50/50">
       <div className="container mx-auto px-6">
@@ -29,12 +55,8 @@ export function ContactInfo() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="font-medium text-gray-900 text-lg">Our Office</h4>
-                    <p className="text-gray-500 font-light leading-relaxed">
-                      WORLD SAFARI TOURS ( Travel division of Transzia Pvt Ltd )<br />
-                      VI/858-M, Second Floor,<br />
-                      Valamkottil Towers, Judgemukku,<br />
-                      Thrikkakara, Ernakulam,<br />
-                      Kochi, Kerala, India
+                    <p className="text-gray-500 font-light leading-relaxed whitespace-pre-line">
+                      {address}
                     </p>
                   </div>
                 </CardContent>
@@ -50,7 +72,7 @@ export function ContactInfo() {
                     <div>
                       <h4 className="font-medium text-gray-900 mb-1">Phone</h4>
                       <p className="text-sm text-gray-500 font-light">
-                        9947247200
+                        {phone}
                       </p>
                     </div>
                   </CardContent>
@@ -63,12 +85,16 @@ export function ContactInfo() {
                     </div>
                     <div>
                       <h4 className="font-medium text-gray-900 mb-1">Email</h4>
-                      <p className="text-sm text-gray-500 font-light break-words">
-                        goworldsafari@gmail.com<br />
-                        mail@worldsafari.in<br />
-                        <a href="https://www.worldsafari.in/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                          https://www.worldsafari.in/
-                        </a>
+                      <p className="text-sm text-gray-500 font-light wrap-break-word whitespace-pre-line">
+                        {email}
+                        {website && (
+                          <>
+                            <br />
+                            <a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                              {website}
+                            </a>
+                          </>
+                        )}
                       </p>
                     </div>
                   </CardContent>
@@ -85,9 +111,9 @@ export function ContactInfo() {
                     <h4 className="font-medium text-gray-900 mb-2">Business Hours</h4>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm text-gray-500 font-light">
                       <span>Mon - Fri:</span>
-                      <span>9:00 AM - 6:00 PM</span>
+                      <span>{hoursWeekday}</span>
                       <span>Sat:</span>
-                      <span>10:00 AM - 2:00 PM</span>
+                      <span>{hoursWeekend}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -99,16 +125,16 @@ export function ContactInfo() {
           {/* Right Column: Map */}
           <div className="w-full lg:w-7/12 min-h-[500px] lg:h-auto">
             <Card className="h-full border-none shadow-lg overflow-hidden rounded-3xl relative group">
-              <div className="absolute inset-0 z-0 bg-gray-200 animate-pulse" /> {/* Placeholder/Loading state visual */}
+              <div className="absolute inset-0 z-0 bg-gray-200 animate-pulse" />
               <iframe 
-                src="https://maps.google.com/maps?q=Valamkottil+Towers,+Judgemukku,+Thrikkakara,+Kochi,+Kerala&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                src={mapUrl} 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
                 allowFullScreen 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full grayscale-[10%] group-hover:grayscale-0 transition-all duration-700 ease-in-out z-10 relative"
+                className="w-full h-full grayscale transition-all duration-700 ease-in-out z-10 relative"
               ></iframe>
             </Card>
           </div>

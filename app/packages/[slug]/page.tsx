@@ -146,7 +146,6 @@ export default async function PackageDetailsPage({
     <main className="min-h-screen bg-white">
       <PackageHero 
         title={pkg.title}
-        destination={pkg.bestTime || ""} 
         duration={pkg.duration}
         price={pkg.price}
         backgroundImage={backgroundImage}

@@ -8,23 +8,11 @@ import { PackageCard, Package } from "@/components/packages/PackageCard";
 import { PackagesCTA } from "@/components/packages/PackagesCTA";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Helper to determine region for filtering (since backend lacks explicit 'destination' field yet)
-function getRegion(title: string = "", overview: string = ""): string {
-  const text = (title + " " + overview).toLowerCase();
-  if (text.includes("bali") || text.includes("japan") || text.includes("asia") || text.includes("thailand") || text.includes("kyoto")) return "Asia";
-  if (text.includes("paris") || text.includes("europe") || text.includes("swiss") || text.includes("italy") || text.includes("amalfi") || text.includes("provence")) return "Europe";
-  if (text.includes("dubai") || text.includes("jordan") || text.includes("middle east") || text.includes("egypt")) return "Middle East";
-  if (text.includes("safari") || text.includes("africa") || text.includes("tanzania") || text.includes("serengeti") || text.includes("kenya") || text.includes("masai")) return "Africa";
-  return "International"; 
-}
-
 export default function PackagesPage() {
   const [packages, setPackages] = useState<Package[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
-    destination: "",
-    duration: "",
-    experience: ""
+    duration: ""
   });
 
   useEffect(() => {
@@ -40,7 +28,6 @@ export default function PackagesPage() {
           title: pkg.title || "Untitled Package",
           // Use first image or fallback
           image: pkg.images?.[0] || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2621&auto=format&fit=crop", 
-          destination: getRegion(pkg.title, pkg.overview), // Derive region for filters
           duration: pkg.duration || "N/A",
           description: pkg.overview || "No description available.",
           price: pkg.price ? `$${pkg.price}` : "Price on Request", // Ensure currency symbol if missing
@@ -60,26 +47,10 @@ export default function PackagesPage() {
 
   const filteredPackages = useMemo(() => {
     return packages.filter((pkg) => {
-      // Destination Filter
-      if (filters.destination && filters.destination !== "all") {
-        if (pkg.destination !== filters.destination) return false;
-      }
       // Duration Filter
       if (filters.duration && filters.duration !== "all") {
         if (pkg.duration !== filters.duration) return false;
       }
-      // Experience Filter
-      if (filters.experience && filters.experience !== "all") {
-         const exp = filters.experience.toLowerCase();
-         const title = pkg.title.toLowerCase();
-         const desc = pkg.description.toLowerCase();
-         // Simple keyword matching
-         if (exp === "honeymoon" && !(title.includes("honeymoon") || title.includes("romanti") || desc.includes("couple"))) return false;
-         if (exp === "adventure" && !(title.includes("adventure") || title.includes("safari") || desc.includes("hike") || desc.includes("ski"))) return false;
-         if (exp === "family" && !(desc.includes("family") || title.includes("family"))) return false;
-         if (exp === "luxury" && !(title.includes("luxury") || desc.includes("luxury") || (pkg.price && pkg.price.includes("5,")))) return false;
-      }
-
       return true;
     });
   }, [packages, filters]);
@@ -139,7 +110,7 @@ export default function PackagesPage() {
                  More journeys coming soon.
                </p>
                <button 
-                 onClick={() => setFilters({ destination: "", duration: "", experience: "" })}
+                onClick={() => setFilters({ duration: "" })}
                  className="mt-6 text-primary font-medium hover:underline underline-offset-4"
                >
                  Clear all filters

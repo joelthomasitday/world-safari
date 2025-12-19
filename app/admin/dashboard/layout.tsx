@@ -11,6 +11,8 @@ import {
   LogOut,
   Menu,
   X,
+  Home,
+  MapPin,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,6 +32,11 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
+    title: "Landing Page",
+    href: "/admin/dashboard/landing-page",
+    icon: Home,
+  },
+  {
     title: "Packages",
     href: "/admin/dashboard/packages",
     icon: Package,
@@ -38,6 +45,11 @@ const navItems = [
     title: "Inquiries",
     href: "/admin/dashboard/inquiries",
     icon: MessageSquare,
+  },
+  {
+    title: "Contact Settings",
+    href: "/admin/dashboard/contact-settings",
+    icon: MapPin,
   },
 ];
 

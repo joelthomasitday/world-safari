@@ -39,7 +39,6 @@ interface Inquiry {
   name: string;
   email: string;
   phone?: string;
-  destination?: string;
   travelDates?: {
     startDate?: string;
     endDate?: string;
@@ -231,7 +230,6 @@ export default function InquiriesPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Customer</TableHead>
-                      <TableHead>Destination</TableHead>
                       <TableHead>Travel Dates</TableHead>
                       <TableHead>People</TableHead>
                       <TableHead>Created</TableHead>
@@ -255,12 +253,6 @@ export default function InquiriesPage() {
                                 {inquiry.phone}
                               </div>
                             )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4 text-muted-foreground" />
-                            {inquiry.destination || "Not specified"}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -353,10 +345,6 @@ export default function InquiriesPage() {
 
                       {/* Travel Details */}
                       <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-muted-foreground" />
-                          <span>{inquiry.destination || "Not specified"}</span>
-                        </div>
                         <div className="flex items-center gap-2">
                           <Users className="h-4 w-4 text-muted-foreground" />
                           <span>{inquiry.numberOfPeople ? `${inquiry.numberOfPeople} people` : "-"}</span>

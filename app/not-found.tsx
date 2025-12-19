@@ -20,7 +20,7 @@ export default function NotFound() {
             {/* Message */}
             <p className="text-lg text-[#555] leading-relaxed mb-10">
               The page you&apos;re looking for seems to have wandered off the trail. 
-              Let&apos;s get you back to exploring amazing destinations.
+              Let&apos;s get you back to exploring amazing journeys.
             </p>
 
             {/* Actions */}

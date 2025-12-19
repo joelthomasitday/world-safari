@@ -11,27 +11,25 @@ async function createAdmin() {
     await connectDB()
     console.log('Connected. creating admin...');
     
-    // Check if admin exists (old or new)
-    const oldAdmin = await Admin.findOne({ email: 'admin@wsafari.com' });
-    const newAdmin = await Admin.findOne({ email: 'admin@worldsafaritours' });
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@worldsafaritours';
+    const adminPassword = process.env.ADMIN_PASSWORD || '#@!WorldSafari2025';
+    
+    if (!process.env.ADMIN_PASSWORD) {
+        console.warn('Warning: Using default password as ADMIN_PASSWORD is not set in .env');
+    }
 
-    const newPassword = '#@!WorldSafari2025';
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
-    if (newAdmin) {
-        console.log('Admin with new email already exists. Updating password...');
-        newAdmin.password = hashedPassword;
-        await newAdmin.save();
+    const existingAdmin = await Admin.findOne({ email: adminEmail });
+
+    if (existingAdmin) {
+        console.log('Admin already exists. Updating password...');
+        existingAdmin.password = hashedPassword;
+        await existingAdmin.save();
         console.log('Admin password updated.');
-    } else if (oldAdmin) {
-        console.log('Found old admin email. Updating to new credentials...');
-        oldAdmin.email = 'admin@worldsafaritours';
-        oldAdmin.password = hashedPassword;
-        await oldAdmin.save();
-        console.log('Admin updated to new email and password.');
     } else {
         console.log('Creating new admin...');
-        await Admin.create({ email: 'admin@worldsafaritours', password: hashedPassword });
+        await Admin.create({ email: adminEmail, password: hashedPassword });
         console.log('Admin created.');
     }
     

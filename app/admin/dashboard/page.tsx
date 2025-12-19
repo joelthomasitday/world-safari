@@ -22,7 +22,6 @@ interface PackageData {
 interface InquiryData {
   _id: string;
   name: string;
-  destination: string;
   message: string;
   handled: boolean;
   createdAt: string;
@@ -178,10 +177,8 @@ export default function DashboardPage() {
                   >
                     <div>
                       <p className="font-medium">{inquiry.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {inquiry.destination
-                          ? `Interested in ${inquiry.destination}`
-                          : "General Enquiry"}
+                      <p className="text-sm text-muted-foreground line-clamp-1">
+                        {inquiry.message}
                       </p>
                     </div>
                     <Badge variant={inquiry.handled ? "secondary" : "destructive"}>

@@ -35,41 +35,11 @@ interface Package {
   price?: string;
   duration?: string;
   overview?: string;
-  destination?: string; // Derived or possibly in future API
   isActive?: boolean;
 }
 
-// --- Helpers ---
-
-// Helper to determine region
-const getRegion = (title: string = "", overview: string = ""): string => {
-  const text = (title + " " + overview).toLowerCase();
-  
-  if (text.includes("bali") || text.includes("japan") || text.includes("asia") || text.includes("thailand") || 
-      text.includes("kyoto") || text.includes("vietnam") || text.includes("sri lanka") || text.includes("china") || 
-      text.includes("singapore") || text.includes("malaysia") || text.includes("india") || text.includes("kerala") || 
-      text.includes("goa") || text.includes("manali")) return "Asia";
-      
-  if (text.includes("paris") || text.includes("europe") || text.includes("swiss") || text.includes("italy") || 
-      text.includes("amalfi") || text.includes("provence") || text.includes("france") || text.includes("germany") || 
-      text.includes("spain") || text.includes("greece")) return "Europe";
-      
-  if (text.includes("dubai") || text.includes("jordan") || text.includes("middle east") || text.includes("egypt") || 
-      text.includes("abu dhabi") || text.includes("turkey")) return "Middle East";
-      
-  if (text.includes("safari") || text.includes("africa") || text.includes("tanzania") || text.includes("serengeti") || 
-      text.includes("kenya") || text.includes("masai") || text.includes("south africa") || text.includes("morocco")) return "Africa";
-      
-  return "International"; 
-};
-
-// Expanded list of known countries/destinations to extract from package data
-const KNOWN_DESTINATIONS = [
-  "Thailand", "Singapore", "Malaysia", "Vietnam", "Sri Lanka", "China", "Japan", "Bali", "India", "Kerala", "Manali", // Asia
-  "France", "Switzerland", "Italy", "Greece", "Spain", "Germany", "London", "Paris", // Europe
-  "Dubai", "Abu Dhabi", "Jordan", "Egypt", "Turkey", // Middle East
-  "Kenya", "Tanzania", "South Africa", "Morocco", "Mauritius", "Seychelles" // Africa
-];
+// Header to determine region (for internal use)
+// const getRegion = ... removed
 
 export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -119,43 +89,6 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
   }, []);
 
   // --- Derived Data ---
-
-  // Dynamically group destinations based on available packages
-  const destinationsByRegion = React.useMemo(() => {
-    const groups: Record<string, Set<string>> = {
-      "Asia": new Set(),
-      "Europe": new Set(),
-      "Middle East": new Set(),
-      "Africa": new Set(),
-      "International": new Set()
-    };
-
-    packages.forEach(pkg => {
-      if (pkg.isActive === false) return; // Skip explicitly inactive
-      
-      const region = getRegion(pkg.title, pkg.overview);
-      if (groups[region]) {
-        // Try to find specific known destinations in the title
-        let found = false;
-        KNOWN_DESTINATIONS.forEach(dest => {
-          if (pkg.title.toLowerCase().includes(dest.toLowerCase())) {
-            groups[region].add(dest);
-            found = true;
-          }
-        });
-        // If no specific destination found but region is valid? 
-        // We'll rely on the region link itself.
-      }
-    });
-
-    // Cleanup empty regions and sort
-    return Object.entries(groups).reduce((acc, [region, dests]) => {
-      if (dests.size > 0) {
-        acc[region] = Array.from(dests).sort();
-      }
-      return acc;
-    }, {} as Record<string, string[]>);
-  }, [packages]);
 
   const popularPackages = React.useMemo(() => {
     // Top 4 active packages
@@ -322,11 +255,9 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                                  </div>
                                  <div className="flex-1 min-w-0 pt-1">
                                    <h5 className="font-bold text-foreground text-sm leading-snug group-hover/card:text-primary transition-colors line-clamp-2">{pkg.title}</h5>
-                                   <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-2 font-medium">
-                                      <span className="flex items-center gap-1 uppercase tracking-tight">{pkg.duration}</span>
-                                      <span className="w-1 h-1 rounded-full bg-muted-foreground/30"></span>
-                                      <span className="uppercase tracking-tight">{getRegion(pkg.title, pkg.overview)}</span>
-                                   </div>
+                                    <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-2 font-medium">
+                                       <span className="flex items-center gap-1 uppercase tracking-tight">{pkg.duration}</span>
+                                    </div>
                                    {pkg.price && <div className="text-sm font-bold text-primary mt-1.5">{pkg.price.includes('$') ? pkg.price.replace('$', '₹') : (pkg.price.match(/^\d/) && !pkg.price.includes('₹') ? `₹${pkg.price}` : pkg.price)}</div>}
                                  </div>
                                </Link>
@@ -336,30 +267,6 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                           )}
                        </div>
                     </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                {/* Experiences */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn(
-                    "rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", 
-                    isTransparent 
-                      ? "text-white hover:text-white/90 hover:bg-white/10" 
-                      : "text-foreground hover:text-primary hover:bg-primary/5"
-                  )}>
-                    Experiences
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                     <ul className="w-[280px] p-4 outline-none">
-                       {["Honeymoon", "Adventure", "Family", "Luxury", "Wildlife"].map((exp) => (
-                         <li key={exp}>
-                           <Link href={`/packages?experience=${exp.toLowerCase()}`} className="flex items-center justify-between px-4 py-3 hover:bg-accent rounded-xl text-sm text-foreground hover:text-primary font-bold transition-all duration-200 group/item mb-1 last:mb-0">
-                             {exp}
-                             <ChevronRight className="w-4 h-4 text-muted-foreground transition-transform group-hover/item:translate-x-1" />
-                           </Link>
-                         </li>
-                       ))}
-                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 

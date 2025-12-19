@@ -4,7 +4,6 @@ const InquirySchema = new mongoose.Schema({
   name: String,
   email: String,
   phone: String,
-  destination: String,
   travelDates: {
     startDate: Date,
     endDate: Date,

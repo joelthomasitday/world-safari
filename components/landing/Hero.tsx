@@ -7,13 +7,28 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 
-export function Hero() {
+interface HeroProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    bodyText?: string;
+    mediaUrl?: string;
+  };
+}
+
+export function Hero({ data }: HeroProps) {
+  // Safe Fallbacks
+  const bgImage = data?.mediaUrl || "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2668&auto=format&fit=crop";
+  const badgeText = data?.subtitle || "EST. 2005 • The Hallmark of Premium Travel";
+  const titleText = data?.title || "Curated Journeys Beyond Expectations";
+  const bodyText = data?.bodyText || "";
+
   return (
     <section className="relative h-[85vh] sm:h-[95vh] min-h-[600px] sm:min-h-[700px] w-full overflow-hidden sm:rounded-[2.5rem] mt-0 sm:mt-2 group">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 select-none overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2668&auto=format&fit=crop" 
+          src={bgImage} 
           alt="Luxury Travel Experience"
           fill
           priority
@@ -36,17 +51,33 @@ export function Hero() {
           {/* Main Title Tag */}
           <ScrollReveal animation="slide-down" delay={100}>
             <span className="inline-block px-4 py-1.5 mb-6 text-xs md:text-sm font-bold tracking-[0.3em] uppercase bg-white/10 backdrop-blur-md border border-white/20 rounded-full drop-shadow-lg">
-              EST. 2005 • The Hallmark of Premium Travel
+              {badgeText}
             </span>
           </ScrollReveal>
 
-          {/* Subtitle */}
+          {/* Title */}
           <ScrollReveal animation="reveal" delay={300}>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-8 drop-shadow-[0_12px_40px_rgba(0,0,0,0.7)] leading-[1.1] px-2 sm:px-0">
-              Curated Journeys <br />
-              <span className="text-[#a7d08c] italic drop-shadow-[0_4px_15px_rgba(0,0,0,0.4)]">Beyond</span> Expectations
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-6 drop-shadow-[0_12px_40px_rgba(0,0,0,0.7)] leading-[1.1] px-2 sm:px-0">
+              {titleText.includes("Beyond") ? (
+                <>
+                  {titleText.split("Beyond")[0]}
+                  <span className="text-[#a7d08c] italic drop-shadow-[0_4px_15px_rgba(0,0,0,0.4)]">Beyond</span>
+                  {titleText.split("Beyond")[1]}
+                </>
+              ) : (
+                titleText
+              )}
             </h1>
           </ScrollReveal>
+
+          {/* Body Text - Only shown if provided */}
+          {bodyText && (
+            <ScrollReveal animation="reveal" delay={400}>
+              <p className="text-base sm:text-lg md:text-xl text-white/90 font-light leading-relaxed max-w-3xl mx-auto mb-8 px-4 sm:px-0 drop-shadow-md">
+                {bodyText}
+              </p>
+            </ScrollReveal>
+          )}
 
           {/* Call to Action Buttons - Pill Shaped */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mb-12 w-full max-w-sm sm:max-w-none px-6 sm:px-0">
