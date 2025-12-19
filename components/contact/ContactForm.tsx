@@ -17,12 +17,14 @@ export function ContactForm() {
     event.preventDefault();
     if (isSubmitting) return;
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const name = (formData.get("name") || "").toString().trim();
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
     const destination = (formData.get("destination") || "").toString().trim();
+    const dates = (formData.get("dates") || "").toString().trim();
     const message = (formData.get("message") || "").toString().trim();
 
     if (!name || !email || !phone || !message) {
@@ -37,7 +39,7 @@ export function ContactForm() {
         name,
         email,
         phone,
-        message,
+        message: dates ? `Preferred Travel Dates: ${dates}\n\n${message}` : message,
       };
 
       if (destination) {
@@ -57,11 +59,22 @@ export function ContactForm() {
       }
 
       toast.success("Enquiry sent! We will contact you shortly.");
+      
       // Reset the form fields
-      event.currentTarget.reset();
+      form.reset();
 
-      // Redirect to thank you page that already exists
-      router.push("/thank-you");
+      // Construct WhatsApp message
+      const whatsappMessage = `*New Contact Enquiry*\n` +
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Phone: ${phone}\n` +
+        (destination ? `Destination: ${destination}\n` : "") +
+        (dates ? `Dates: ${dates}\n` : "") +
+        `Message: ${message}`;
+
+      // Redirect to WhatsApp
+      window.location.href = `https://wa.me/919947247200?text=${encodeURIComponent(whatsappMessage)}`;
+      
     } catch (error) {
       console.error("Error submitting contact enquiry:", error);
       toast.error("Something went wrong. Please try again.");
@@ -132,6 +145,7 @@ export function ContactForm() {
                   <label htmlFor="dates" className="text-sm font-medium text-gray-900 tracking-wide uppercase">Preferred Travel Dates</label>
                   <Input 
                     id="dates"
+                    name="dates"
                     placeholder="e.g. June 2024" 
                     className="bg-gray-50 border-gray-100 focus:bg-white focus:border-primary/20 transition-all h-14 rounded-xl text-lg font-light placeholder:text-gray-400" 
                   />
