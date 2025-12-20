@@ -54,6 +54,7 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
     pathname === "/" || 
     pathname === "/contact" || 
     pathname === "/about" || 
+    pathname === "/blog" || 
     pathname.startsWith("/packages") 
     ? "hero" : "default"
   );
@@ -156,6 +157,7 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                          All Packages <ChevronRight className="w-4 h-4 text-muted-foreground" />
                        </Link>
                        <Link href="/about" onClick={() => setIsOpen(false)} className="hover:text-primary transition-colors">About Us</Link>
+                       <Link href="/blog" onClick={() => setIsOpen(false)} className="hover:text-primary transition-colors">Blog</Link>
                        <Link href="/contact" onClick={() => setIsOpen(false)} className="hover:text-primary transition-colors">Contact</Link>
                     </div>
 
@@ -270,7 +272,6 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* About & Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                   <Link href="/about" className={cn(
@@ -280,6 +281,19 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                       : "text-foreground hover:text-primary hover:bg-primary/5"
                   )}>
                     About Us
+                  </Link>
+                </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                  <Link href="/blog" className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-full bg-transparent px-6 py-2 text-lg font-bold transition-all duration-300 focus:bg-primary/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50", 
+                    isTransparent 
+                      ? "text-white hover:text-white/90 hover:bg-white/10" 
+                      : "text-foreground hover:text-primary hover:bg-primary/5"
+                  )}>
+                    Blog
                   </Link>
                 </NavigationMenuLink>
                 </NavigationMenuItem>

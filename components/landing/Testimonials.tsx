@@ -44,7 +44,7 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-24 md:py-40 bg-white overflow-hidden">
+    <section id="testimonials" className="py-24 md:py-40 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
         <ScrollReveal animation="slide-down" delay={100} className="text-center mb-20 md:mb-32">
           <span className="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-4 block">Testimonials</span>

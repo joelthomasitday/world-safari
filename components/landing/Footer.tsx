@@ -54,9 +54,9 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="bg-white text-gray-900 border-t border-gray-100 pt-10 pb-6">
+    <footer id="footer" className="bg-white text-gray-900 border-t border-gray-100 pt-10 pb-6">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
@@ -78,44 +78,75 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links - Column 1 */}
+          {/* Column 2: Company */}
           <div>
             <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Company</h4>
             <ul className="space-y-2">
-              {["About Us", "Careers", "Press", "Blog"].map((item) => (
-                <li key={item}>
+              {[
+                { name: "About Us", href: "/about" },
+                { name: "Blog", href: "/blog" },
+                { name: "Contact Us", href: "/contact" },
+                { name: "Testimonials", href: "/#testimonials" },
+              ].map((item) => (
+                <li key={item.name}>
                   <Link
-                    href={item === "About Us" ? "/about" : "#"}
+                    href={item.href}
                     className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
                   >
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Links - Column 2 */}
+          {/* Column 3: Explore */}
           <div>
-            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Support</h4>
+            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Explore</h4>
             <ul className="space-y-2">
-              {["Contact Us", "Terms & Conditions", "Privacy Policy", "Sitemap"].map((item) => (
-                <li key={item}>
+              {[
+                { name: "All Packages", href: "/packages" },
+                { name: "Popular Tours", href: "/packages" },
+                { name: "Luxury Safaris", href: "/packages" },
+                { name: "Adventure Travel", href: "/packages" },
+              ].map((item) => (
+                <li key={item.name}>
                   <Link
-                    href={item === "Contact Us" ? "/contact" : "#"}
+                    href={item.href}
                     className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
                   >
-                    {item}
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Help */}
+          <div>
+            <h4 className="font-sans font-bold text-base uppercase tracking-widest mb-4">Help</h4>
+            <ul className="space-y-2">
+              {[
+                { name: "Support Center", href: "/contact" },
+                { name: "Terms & Conditions", href: "#" },
+                { name: "Privacy Policy", href: "#" },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
+                  >
+                    {item.name}
                   </Link>
                 </li>
               ))}
               <li>
-                  <Link
-                    href="/admin/login"
-                    className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
-                  >
-                    Staff Login
-                  </Link>
+                <a
+                  href="/sitemap.xml"
+                  className="text-gray-800 font-bold hover:text-primary transition-colors text-base"
+                >
+                  Sitemap
+                </a>
               </li>
             </ul>
           </div>
