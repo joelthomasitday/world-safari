@@ -128,8 +128,8 @@ export function Footer() {
             <ul className="space-y-2">
               {[
                 { name: "Support Center", href: "/contact" },
-                { name: "Terms & Conditions", href: "#" },
-                { name: "Privacy Policy", href: "#" },
+                { name: "Terms & Conditions", href: "/terms" },
+                { name: "Privacy Policy", href: "/privacy-policy" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link
