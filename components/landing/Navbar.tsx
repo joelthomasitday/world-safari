@@ -102,11 +102,9 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
   const navClasses = cn(
     "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out",
     isTransparent
-      ? "bg-white/5 backdrop-blur-[3px] border-b border-white/5"
-      : "bg-background/95 backdrop-blur-md border-b border-border shadow-md",
-    // Desktop: centered floating pill when not scrolled and in default variant
-    variant !== "hero" && !scrolled && "lg:top-4 lg:left-1/2 lg:-translate-x-1/2 lg:w-[95%] lg:max-w-7xl lg:rounded-full lg:shadow-lg lg:border lg:bg-background/95",
-    scrolled && "bg-background/95 backdrop-blur-lg shadow-lg py-1 border-b border-border"
+      ? "bg-white/5 backdrop-blur-[2px] border-b border-white/5"
+      : "bg-background/95 backdrop-blur-md border-b border-border shadow-sm",
+    scrolled && "bg-background/95 backdrop-blur-lg shadow-lg py-0 border-b border-border"
   );
 
   const linkColor = isTransparent ? "text-white hover:text-white/80" : "text-foreground hover:text-primary";
@@ -119,7 +117,7 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
 
      <header className={navClasses}>
   <div className="mx-auto max-w-7xl">
-    <div className="relative flex items-center justify-between h-full px-4 lg:px-6 py-2 lg:pt-4 lg:pb-0">
+    <div className="relative flex items-center justify-between h-full px-4 lg:px-6 py-2 lg:py-3 transition-all duration-300">
           {/* Left: Mobile menu + Logo */}
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Mobile burger (left on mobile, hidden on desktop) */}
@@ -135,16 +133,15 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
               <SheetContent side="left" className="w-[85vw] sm:w-[380px] p-0 border-r border-border">
                 <div className="flex flex-col h-full bg-background">
                   <SheetHeader className="p-6 text-left border-b border-border">
-                    <SheetTitle className="flex items-center gap-2">
-                       <div className="relative w-8 h-8">
+                    <SheetTitle>
+                       <div className="relative w-32 h-32 mx-auto pb-4">
                          <Image
-                           src="/WST-logo.png"
-                           alt="World Safari logo"
+                           src="/world-safari-logo-full.png"
+                           alt="World Safari Tours"
                            fill
                            className="object-contain"
                          />
                        </div>
-                       <span className="font-bold text-xl text-foreground">World Safari</span>
                     </SheetTitle>
                   </SheetHeader>
                   
@@ -187,21 +184,27 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
               </SheetContent>
             </Sheet>
 
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group shrink-0 relative z-10 transition-transform active:scale-95">
-              <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 transition-all duration-300">
-                <Image
-                  src="/WST-logo.png"
-                  alt="World Safari logo"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <span className={cn("text-[16px] xs:text-lg sm:text-xl lg:text-2xl font-bold tracking-tight transition-colors duration-300 whitespace-nowrap", isTransparent ? "text-white" : "text-foreground")}>
-                World Safari Tours
-              </span>
-            </Link>
+            {/* Logo - Sleek Dynamic Floating Design */}
+            <div className="relative w-20 sm:w-24 lg:w-28 h-10 lg:h-12 shrink-0">
+              <Link href="/" className="absolute -top-2 lg:-top-3 left-0 z-50 transition-all duration-500 group active:scale-95">
+                <div className={cn(
+                  "relative transition-all duration-500 ease-in-out bg-white shadow-2xl rounded-b-[2rem] border-x border-b border-black/5 p-2 flex items-center justify-center overflow-hidden",
+                  scrolled 
+                    ? "w-20 h-24 lg:w-24 lg:h-28" 
+                    : "w-24 h-32 lg:w-28 lg:h-36"
+                )}>
+                  <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
+                    <Image
+                      src="/world-safari-logo-full.png"
+                      alt="World Safari Tours"
+                      fill
+                      className="object-contain p-1"
+                      priority
+                    />
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -212,7 +215,7 @@ export function Navbar({ variant: propVariant }: { variant?: "default" | "hero" 
                 {/* Packages Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className={cn(
-                    "rounded-full px-6 h-10 text-lg font-bold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", 
+                    "rounded-full px-5 h-9 text-base font-semibold transition-all duration-300 bg-transparent focus:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:text-primary", 
                     isTransparent 
                       ? "text-white hover:text-white/90 hover:bg-white/10" 
                       : "text-foreground hover:text-primary hover:bg-primary/5"
