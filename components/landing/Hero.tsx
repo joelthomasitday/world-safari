@@ -24,7 +24,7 @@ export function Hero({ data }: HeroProps) {
   const bodyText = data?.bodyText || "";
 
   return (
-    <section className="relative h-[85vh] sm:h-[95vh] min-h-[600px] sm:min-h-[700px] w-full overflow-hidden sm:rounded-[2.5rem] mt-0 sm:mt-2 group">
+    <section className="relative h-[85vh] sm:h-[95vh] min-h-[600px] sm:min-h-[700px] mx-4 sm:mx-8 overflow-hidden rounded-[1.5rem] sm:rounded-[2.5rem] mt-4 mb-8 group">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 select-none overflow-hidden">
         <Image
