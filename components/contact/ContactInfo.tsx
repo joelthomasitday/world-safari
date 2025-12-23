@@ -23,13 +23,13 @@ export function ContactInfo() {
   }, []);
 
   // Safe Fallbacks
-  const address = settings?.address || "WORLD SAFARI TOURS ( Travel division of Transzia Pvt Ltd )\nVI/858-M, Second Floor,\nValamkottil Towers, Judgemukku,\nThrikkakara, Ernakulam,\nKochi, Kerala, India";
+  const address = settings?.address || "World Safari Tours\nEl Tower,\nJustice K. J Joseph Lane \nOff Diwan's Road \nErnakulam \nKochi - 682 016\nKerala, South India";
   const phone = settings?.phone || "9947247200";
   const email = settings?.email || "goworldsafari@gmail.com\nmail@worldsafari.in";
   const website = settings?.website || "https://www.worldsafari.in/";
   const hoursWeekday = settings?.businessHoursWeekday || "9:00 AM - 6:00 PM";
   const hoursWeekend = settings?.businessHoursWeekend || "10:00 AM - 2:00 PM";
-  const mapUrl = settings?.mapEmbedUrl || "https://maps.google.com/maps?q=Valamkottil+Towers,+Judgemukku,+Thrikkakara,+Kochi,+Kerala&t=&z=15&ie=UTF8&iwloc=&output=embed";
+  const mapUrl = settings?.mapEmbedUrl || "https://maps.google.com/maps?q=El+Tower,+Justice+K.+J+Joseph+Lane,+Off+Diwan's+Road,+Ernakulam,+Kochi,+Kerala&t=&z=15&ie=UTF8&iwloc=&output=embed";
 
   return (
     <section className="py-24 bg-gray-50/50">
